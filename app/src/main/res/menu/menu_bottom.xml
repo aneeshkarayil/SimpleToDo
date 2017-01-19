@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_done_all"
+        android:icon="@drawable/ic_done_all"
+        app:showAsAction="always"
+        android:title="Sort"/>
+    <item
+        android:id="@+id/action_move"
+        android:icon="@drawable/ic_arrow_forward"
+        app:showAsAction="always"
+        android:title="Move"/>
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="always"
+        android:title="Delete"/>
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="always"
+        android:title="Share"/>
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="always"
+        android:title="Sort"/>
+
+    <item
+        android:id="@+id/action_add_multiple"
+        app:showAsAction="never"
+        android:title="Add Multiple"/>
+
+    <item
+        android:id="@+id/action_export"
+        app:showAsAction="never"
+        android:title="Export to text file"/>
+
+    <item
+        android:id="@+id/action_feedback"
+        app:showAsAction="never"
+        android:title="Feedback"/>
+
+    <item
+        android:id="@+id/action_settings"
+        app:showAsAction="never"
+        android:title="Settings"/>
+
+</menu>
