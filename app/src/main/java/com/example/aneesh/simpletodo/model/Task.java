@@ -11,49 +11,48 @@ public class Task {
 
     private String description;
     private UUID taskId;
-    private UUID parentId;
-    private boolean isDone;
-    private Date startDate;
+    private UUID parentTaskId;
+    private Date createdDate;
+    private boolean done;
 
     public Task(String description)
     {
         this(description, null);
     }
 
-    public Task(String description, UUID parentId)
+    public Task (String description, UUID parentTaskId)
     {
         this.description = description;
         this.taskId = UUID.randomUUID();
-        this.parentId = parentId;
-        this.isDone = false;
-        this.startDate = new Date(System.currentTimeMillis());
+        this.parentTaskId = parentTaskId;
+        this.createdDate = new Date(System.currentTimeMillis());
+        this.done = false;
+    }
+
+    public UUID getTaskId() {
+        return taskId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public UUID getParentTaskId() {
+        return parentTaskId;
     }
 
-    public UUID getParentId() {
-        return parentId;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
     public boolean isDone() {
-        return isDone;
+        return done;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setDone(boolean done)
+    {
+        this.done = done;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
 
-    public UUID getTaskId() {
-        return taskId;
-    }
 }

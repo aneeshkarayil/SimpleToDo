@@ -1,5 +1,6 @@
 package com.example.aneesh.simpletodo.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
+import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.util.List;
@@ -21,21 +23,15 @@ import java.util.List;
  * Created by Aneesh on 1/10/2017.
  */
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder>
-{
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
 
-    private List<Task> mTasks;
-    private Context mContext;
+    private List<Task> taskList;
+    private Context context;
 
-    public TasksAdapter(Context context, List<Task> tasks)
+    public TasksAdapter(Context context, List<Task> taskList)
     {
-        this.mTasks = tasks;
-        this.mContext = context;
-    }
-
-    private Context getContext()
-    {
-        return this.mContext;
+        this.context = context;
+        this.taskList = taskList;
     }
 
     @Override
@@ -44,9 +40,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder>
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View taskView = inflater.inflate(R.layout.task_item, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(taskView);
+        View view = inflater.inflate(R.layout.task_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
@@ -54,33 +49,61 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Task task = this.mTasks.get(position);
+        Task task = taskList.get(position);
 
-        TextView textView = holder.nameTextView;
-        textView.setText(task.getDescription().toString());
+        TextView textView = holder.mItemTextView;
+        Button progressButton = holder.mItemButton;
+        CheckBox checkBox = holder.mItemCheckbox;
 
-        Button button = holder.messageButton;
-        button.setText("P");
+        textView.setText(task.getDescription());
+
+        //get the children for the current task
+        List<Task> childTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+
+        if (childTasks.size() == 0)
+        {
+            progressButton.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            progressButton.setVisibility(View.VISIBLE);
+            progressButton.setText(childTasks.size()+"");
+        }
+
+        if (task.isDone())
+        {
+            checkBox.setChecked(true);
+        }
+        else
+        {
+            checkBox.setChecked(false);
+        }
+    }
+
+    public void swapData(List<Task> newData)
+    {
+        this.taskList.clear();
+        this.taskList.addAll(newData);
+        this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mTasks.size();
+        return this.taskList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView nameTextView;
-        public Button messageButton;
-        public CheckBox doneCheckBox;
-
+        public Button mItemButton;
+        public CheckBox mItemCheckbox;
+        public TextView mItemTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.item_text_view);
-            messageButton = (Button) itemView.findViewById(R.id.item_progress);
-            doneCheckBox = (CheckBox) itemView.findViewById(R.id.item_check_box);
+            mItemButton = (Button)itemView.findViewById(R.id.item_progress);
+            mItemCheckbox = (CheckBox)itemView.findViewById(R.id.item_check_box);
+            mItemTextView = (TextView)itemView.findViewById(R.id.item_description);
 
             itemView.setOnClickListener(this);
         }
@@ -88,12 +111,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder>
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition(); // gets item position
-            if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-                Task task = mTasks.get(position);
-
-                Intent intent = new Intent(mContext, MainActivity.class);
+            if (position != RecyclerView.NO_POSITION) {
+                Task task = taskList.get(position);
+                Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(MainActivity.PARENT_UUID, task.getTaskId());
-                mContext.startActivity(intent);
+                ((Activity)context).startActivity(intent);
             }
         }
     }

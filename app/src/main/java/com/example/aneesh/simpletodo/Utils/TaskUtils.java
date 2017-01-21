@@ -10,90 +10,91 @@ import java.util.UUID;
  * Created by Aneesh on 1/8/2017.
  */
 
+/**
+ * Created by Maya on 1/14/2017.
+ */
 public class TaskUtils {
 
-    public static List<Task> taskList;
+    private static List<Task> taskList;
 
-    public static List createTestTasks()
+    public static List<Task> generateTasks()
     {
         if (taskList != null)
         {
             return taskList;
         }
 
-        taskList = new ArrayList<>(100);
+        taskList = new ArrayList<>(20);
 
-        Task t1 = new Task("Parent task 1");
-        Task t2 = new Task("Parent task 2");
-        Task t3 = new Task("Parent task 3");
+        //parent tasks
+        Task task_1 = new Task("Parent Task 1");
+        Task task_2 = new Task("Parent Task 2");
+        Task task_3 = new Task("Parent Task 3");
 
-        //Parent tasks
-        taskList.add(t1);
-        taskList.add(t2);
-        taskList.add(t3);
+        //set isDone
+        task_2.setDone(true);
 
-        //Sub-tasks
-        Task t2_t1 = new Task("Sub task 2_1", t2.getTaskId());
-        Task t2_t2 = new Task("Sub task 2_2", t2.getTaskId());
-        Task t2_t3 = new Task("Sub task 2_3", t2.getTaskId());
+        taskList.add(task_1);
+        taskList.add(task_2);
+        taskList.add(task_3);
 
-        Task t3_t1 = new Task("Sub task 3_1", t3.getTaskId());
-        Task t3_t2 = new Task("Sub task 3_2", t3.getTaskId());
+        //First children
+        Task task_2_1 = new Task("Sub Task 2_1", task_2.getTaskId());
+        Task task_2_2 = new Task("Sub Task 2_2", task_2.getTaskId());
+        Task task_2_3 = new Task("Sub Task 2_3", task_2.getTaskId());
 
-        taskList.add(t2_t1);
-        taskList.add(t2_t2);
-        taskList.add(t2_t3);
+        Task task_3_1 = new Task("Sub Task 3_1", task_3.getTaskId());
+        Task task_3_2 = new Task("Sub Task 3_2", task_3.getTaskId());
 
-        taskList.add(t3_t1);
-        taskList.add(t3_t2);
+        task_2_2.setDone(true);
 
-        //Sub sub-tasks
+        taskList.add(task_2_1);
+        taskList.add(task_2_2);
+        taskList.add(task_2_3);
+        taskList.add(task_3_1);
+        taskList.add(task_3_2);
 
-        Task t3_t1_t1 = new Task("Sub task 3_1_1", t3_t1.getTaskId());
-        Task t3_t2_t1 = new Task("Sub task 3_2_1", t3_t2.getTaskId());
-        Task t3_t2_t2 = new Task("Sub task 3_2_2", t3_t2.getTaskId());
+        //Second children
+        Task task_2_1_1 = new Task("Sub Task 2_1_1", task_2_1.getTaskId());
+        Task task_2_1_2 = new Task("Sub Task 2_1_2", task_2_1.getTaskId());
 
-        taskList.add(t3_t1_t1);
-        taskList.add(t3_t2_t1);
-        taskList.add(t3_t2_t2);
+        Task task_3_2_1 = new Task("Sub Task 3_2_1", task_3_2.getTaskId());
+        Task task_3_2_2 = new Task("Sub Task 3_2_2", task_3_2.getTaskId());
+
+        taskList.add(task_2_1_1);
+        taskList.add(task_2_1_2);
+        taskList.add(task_3_2_1);
+        taskList.add(task_3_2_1);
 
         return taskList;
-
     }
 
-    public static List<Task> getParentTasks(List<Task> inputTasks)
+    public static List<Task> getParentTasks(List<Task> inputList)
     {
         List<Task> parentTasks = new ArrayList<>(10);
 
-        for (Task inputTask: inputTasks)
+        for (Task task: inputList)
         {
-            if (inputTask.getParentId() == null)
+            if (task.getParentTaskId() == null)
             {
-                parentTasks.add(inputTask);
+                parentTasks.add(task);
             }
         }
 
         return parentTasks;
     }
 
-    public static List<Task> getChildTasks(List<Task> inputTasks, UUID parentTaskUUID)
+    public static List<Task> getChildTasks(List<Task> inputList, UUID parentTask)
     {
         List<Task> childTasks = new ArrayList<>(10);
 
-        for (Task inputTask: inputTasks)
+        for (Task task: inputList)
         {
-            if (inputTask.getParentId() != null && inputTask.getParentId().equals(parentTaskUUID))
+            if (task.getParentTaskId() != null && task.getParentTaskId().equals(parentTask))
             {
-                childTasks.add(inputTask);
+                childTasks.add(task);
             }
         }
-
         return childTasks;
-    }
-
-
-    public static List<Task> getChildTasks(List<Task> inputTasks, Task parentTask)
-    {
-        return TaskUtils.getChildTasks(inputTasks, parentTask.getTaskId());
     }
 }

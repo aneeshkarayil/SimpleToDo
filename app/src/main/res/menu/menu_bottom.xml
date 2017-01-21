@@ -2,49 +2,54 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_done_all"
+        android:id="@+id/menu_done_all"
         android:icon="@drawable/ic_done_all"
         app:showAsAction="always"
-        android:title="Sort"/>
+        android:title="Done">
+    </item>
     <item
-        android:id="@+id/action_move"
+        android:id="@+id/menu_move"
         android:icon="@drawable/ic_arrow_forward"
         app:showAsAction="always"
-        android:title="Move"/>
+        android:title="Move">
+    </item>
     <item
-        android:id="@+id/action_delete"
+        android:id="@+id/menu_delete"
         android:icon="@drawable/ic_delete"
         app:showAsAction="always"
-        android:title="Delete"/>
+        android:title="Delete">
+    </item>
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/menu_share"
         android:icon="@drawable/ic_share"
         app:showAsAction="always"
-        android:title="Share"/>
+        android:title="Share">
+    </item>
     <item
-        android:id="@+id/action_sort"
+        android:id="@+id/menu_sort"
         android:icon="@drawable/ic_sort"
         app:showAsAction="always"
-        android:title="Sort"/>
-
+        android:title="Sort">
+    </item>
     <item
-        android:id="@+id/action_add_multiple"
+        android:id="@+id/menu_add_multiple"
         app:showAsAction="never"
-        android:title="Add Multiple"/>
-
+        android:title="Add multiple">
+    </item>
     <item
-        android:id="@+id/action_export"
+        android:id="@+id/menu_export"
         app:showAsAction="never"
-        android:title="Export to text file"/>
-
+        android:title="Export to text file">
+    </item>
     <item
-        android:id="@+id/action_feedback"
+        android:id="@+id/menu_feedback"
         app:showAsAction="never"
-        android:title="Feedback"/>
-
+        android:title="Feedback">
+    </item>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_settings"
         app:showAsAction="never"
-        android:title="Settings"/>
+        android:title="Settings">
+    </item>
 
 </menu>
