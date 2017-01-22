@@ -1,5 +1,7 @@
 package com.example.aneesh.simpletodo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -26,6 +29,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
+    public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
     private List<Task> tasks;
     private UUID parentUUID;
     private TasksAdapter taskAdapter;
@@ -50,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView parentTaskTextView = (TextView)findViewById(R.id.parent_text);
+        parentTaskTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task parentTask = TaskUtils.getTaskForUUID(parentUUID);
+                Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
+                intent.putExtra(MainActivity.TASK_DESCRIPTION, parentTask.getDescription());
+                startActivity(intent);
+            }
+        });
 
         if (parentUUID == null)
         {
