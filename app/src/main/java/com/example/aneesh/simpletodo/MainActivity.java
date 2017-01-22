@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (parentUUID == null)
         {
-            parentTaskTextView.setVisibility(View.INVISIBLE);
+            parentTaskTextView.setVisibility(View.GONE);
         }
         else
         {
