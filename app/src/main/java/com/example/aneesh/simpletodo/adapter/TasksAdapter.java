@@ -49,11 +49,18 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Task task = taskList.get(position);
+        final Task task = taskList.get(position);
 
         TextView textView = holder.mItemTextView;
         Button progressButton = holder.mItemButton;
         CheckBox checkBox = holder.mItemCheckbox;
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    task.setDone(true);
+                }
+            });
 
         textView.setText(task.getDescription());
 
