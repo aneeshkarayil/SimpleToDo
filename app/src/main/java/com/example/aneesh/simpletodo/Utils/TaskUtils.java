@@ -97,4 +97,20 @@ public class TaskUtils {
         }
         return childTasks;
     }
+
+    public static Task getTaskForUUID (UUID taskID)
+    {
+        Task candidateTask = null;
+
+        for (Task task : taskList)
+        {
+            if (taskID != null && task.getTaskId() != null && taskID.equals(task.getTaskId()))
+            {
+                candidateTask = task;
+                break;
+            }
+        }
+
+        return candidateTask;
+    }
 }

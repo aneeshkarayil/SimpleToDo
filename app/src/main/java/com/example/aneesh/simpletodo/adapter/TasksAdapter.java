@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,12 +56,51 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         Button progressButton = holder.mItemButton;
         CheckBox checkBox = holder.mItemCheckbox;
 
-        checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    task.setDone(true);
-                }
-            });
+//        checkBox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    task.setDone(true);
+//                    boolean allSubTaskDone = checkAllSubTasksDone();
+//
+//                    if (allSubTaskDone)
+//                    {
+//                        Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
+//                        Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
+//                        parentTask.setDone(true);
+//                    }
+//
+//                }
+//            });
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                @Override
+                                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                    if (isChecked)
+                                                    {
+                                                        task.setDone(true);
+                                                        boolean allSubTaskDone = checkAllSubTasksDone();
+
+                                                        if (allSubTaskDone) {
+                                                            Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
+                                                            Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
+                                                            parentTask.setDone(true);
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        task.setDone(false);
+                                                        Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
+                                                        if (parentTask != null && parentTask.isDone())
+                                                        {
+                                                            Toast.makeText(context, "marking parent task as not done", Toast.LENGTH_SHORT).show();
+                                                            parentTask.setDone(false);
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+        );
 
         textView.setText(task.getDescription());
 
@@ -85,6 +125,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         {
             checkBox.setChecked(false);
         }
+    }
+
+    private boolean checkAllSubTasksDone() {
+        boolean allDone = true;
+
+        for (Task task : taskList)
+        {
+            if (!task.isDone())
+            {
+                allDone = false;
+                break;
+            }
+        }
+
+        return allDone;
+
+
+
     }
 
     public void swapData(List<Task> newData)
