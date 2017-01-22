@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
@@ -46,6 +47,19 @@ public class MainActivity extends AppCompatActivity {
         {
             tasks  = TaskUtils.getParentTasks(TaskUtils.generateTasks());
             this.parentUUID = null;
+        }
+
+        TextView parentTaskTextView = (TextView)findViewById(R.id.parent_text);
+
+        if (parentUUID == null)
+        {
+            parentTaskTextView.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            parentTaskTextView.setVisibility(View.VISIBLE);
+            Task parentTask = TaskUtils.getTaskForUUID(parentUUID);
+            parentTaskTextView.setText(parentTask.getDescription());
         }
 
 
