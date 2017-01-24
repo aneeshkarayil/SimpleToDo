@@ -31,7 +31,7 @@ public class EditItemActivity  extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.edit_item_toolbar);
         toolbar.setTitle(R.string.edit_text);
-        toolbar.setLogo(R.drawable.ic_arrow_forward);
+        toolbar.setLogo(R.drawable.ic_arrow_back);
 
         if (getIntent().getSerializableExtra(MainActivity.TASK_DESCRIPTION) != null)
         {
