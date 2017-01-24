@@ -54,5 +54,10 @@ public class Task {
         this.done = done;
     }
 
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
 
 }

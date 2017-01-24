@@ -28,6 +28,8 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int EDIT_ACTIVITY_CODE = 100;
+    public static final String EDIT_TASK_UUID = "com.aadhyaapps.anothertodo.MainActivity.EDIT_TASK_UUID";
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
     public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
     private List<Task> tasks;
@@ -60,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 Task parentTask = TaskUtils.getTaskForUUID(parentUUID);
                 Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
                 intent.putExtra(MainActivity.TASK_DESCRIPTION, parentTask.getDescription());
-                startActivity(intent);
+                intent.putExtra(MainActivity.EDIT_TASK_UUID, parentTask.getTaskId());
+                startActivityForResult(intent, EDIT_ACTIVITY_CODE);
             }
         });
 
@@ -115,6 +118,31 @@ public class MainActivity extends AppCompatActivity {
         {
             taskAdapter.swapData(TaskUtils.getChildTasks(newTaskList, parentUUID));
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        UUID taskUUID = (UUID)data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
+        //String description = (String)data.getSerializableExtra(EditItemActivity.EDIT_ITEM_DESCRIPTION);
+        String description = data.getExtras().get(EditItemActivity.EDIT_ITEM_DESCRIPTION).toString();
+
+        if (requestCode == EDIT_ACTIVITY_CODE && resultCode == RESULT_OK)
+        {
+            List<Task> updatedTaskList = TaskUtils.generateTasks();
+            for (Task task : updatedTaskList)
+            {
+                if (task.getTaskId() != null && taskUUID != null && task.getTaskId().equals(taskUUID) )
+                {
+                    task.setDescription(description);
+                    break;
+                }
+            }
+
+            swapAdapterData(updatedTaskList);
+        }
+
     }
 
     @Override

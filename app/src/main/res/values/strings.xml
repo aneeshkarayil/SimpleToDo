@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Simple To Do</string>
+    <string name="edit_text">Edit</string>
 </resources>
