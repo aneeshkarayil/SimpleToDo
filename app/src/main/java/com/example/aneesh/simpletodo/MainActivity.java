@@ -1,16 +1,12 @@
 package com.example.aneesh.simpletodo;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,21 +38,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar appBar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar appBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(appBar);
 
-        if (getIntent().getSerializableExtra(MainActivity.PARENT_UUID) != null)
-        {
-            this.parentUUID = (UUID)getIntent().getSerializableExtra(MainActivity.PARENT_UUID);
+        if (getIntent().getSerializableExtra(MainActivity.PARENT_UUID) != null) {
+            this.parentUUID = (UUID) getIntent().getSerializableExtra(MainActivity.PARENT_UUID);
             tasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentUUID);
-        }
-        else
-        {
-            tasks  = TaskUtils.getParentTasks(TaskUtils.generateTasks());
+        } else {
+            tasks = TaskUtils.getParentTasks(TaskUtils.generateTasks());
             this.parentUUID = null;
         }
 
-        parentTaskTextView = (TextView)findViewById(R.id.parent_text);
+        parentTaskTextView = (TextView) findViewById(R.id.parent_text);
         parentTaskTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,31 +61,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (parentUUID == null)
-        {
+        if (parentUUID == null) {
             parentTaskTextView.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             parentTaskTextView.setVisibility(View.VISIBLE);
             Task parentTask = TaskUtils.getTaskForUUID(parentUUID);
             parentTaskTextView.setText(parentTask.getDescription());
         }
 
 
-        final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         taskAdapter = new TasksAdapter(MainActivity.this, tasks);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Toolbar bottomToolbar = (Toolbar)findViewById(R.id.bottomBar);
+        Toolbar bottomToolbar = (Toolbar) findViewById(R.id.bottomBar);
         bottomToolbar.inflateMenu(R.menu.menu_bottom);
         bottomToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.menu_done_all:
                         Toast.makeText(MainActivity.this, "Done all", Toast.LENGTH_SHORT).show();
                         return true;
@@ -123,16 +112,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
-
                 return false;
             }
         });
 
-        final EditText editText = (EditText)findViewById(R.id.add_item_text);
+        final EditText editText = (EditText) findViewById(R.id.add_item_text);
 
-        ImageView addItemView = (ImageView)findViewById(R.id.add_item_click);
-        addItemView.setOnClickListener(new View.OnClickListener(){
+        ImageView addItemView = (ImageView) findViewById(R.id.add_item_click);
+        addItemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -152,12 +139,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void swapAdapterData(List<Task> newTaskList) {
-        if (parentUUID == null)
-        {
+        if (parentUUID == null) {
             taskAdapter.swapData(TaskUtils.getParentTasks(newTaskList));
-        }
-        else
-        {
+        } else {
             taskAdapter.swapData(TaskUtils.getChildTasks(newTaskList, parentUUID));
         }
     }
@@ -166,16 +150,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        UUID taskUUID = (UUID)data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
+        UUID taskUUID = (UUID) data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
         String description = data.getExtras().get(EditItemActivity.EDIT_ITEM_DESCRIPTION).toString();
 
-        if (requestCode == EDIT_ACTIVITY_CODE && resultCode == RESULT_OK)
-        {
+        if (requestCode == EDIT_ACTIVITY_CODE && resultCode == RESULT_OK) {
             List<Task> updatedTaskList = TaskUtils.generateTasks();
-            for (Task task : updatedTaskList)
-            {
-                if (task.getTaskId() != null && taskUUID != null && task.getTaskId().equals(taskUUID) )
-                {
+            for (Task task : updatedTaskList) {
+                if (task.getTaskId() != null && taskUUID != null && task.getTaskId().equals(taskUUID)) {
                     task.setDescription(description);
                     break;
                 }
@@ -191,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         List<Task> updatedTaskList = TaskUtils.generateTasks();
         this.swapAdapterData(updatedTaskList);
     }
-
 
 
     @Override
