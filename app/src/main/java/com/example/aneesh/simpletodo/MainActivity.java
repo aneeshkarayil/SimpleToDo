@@ -87,6 +87,47 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar bottomToolbar = (Toolbar)findViewById(R.id.bottomBar);
         bottomToolbar.inflateMenu(R.menu.menu_bottom);
+        bottomToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId())
+                {
+                    case R.id.menu_done_all:
+                        Toast.makeText(MainActivity.this, "Done all", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_move:
+                        Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_delete:
+                        Toast.makeText(MainActivity.this, "Delete", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_share:
+                        Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_sort:
+                        Toast.makeText(MainActivity.this, "Sort", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_add_multiple:
+                        Toast.makeText(MainActivity.this, "Add Multiple", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_export:
+                        Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_feedback:
+                        Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_settings:
+                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+
+
+
+
+                return false;
+            }
+        });
 
         final EditText editText = (EditText)findViewById(R.id.add_item_text);
 
