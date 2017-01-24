@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Simple To Do</string>
     <string name="edit_text">Edit</string>
+    <string name="delete_dialog_title">Delete Items?</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
 </resources>

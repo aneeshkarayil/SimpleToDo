@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_delete:
-                        Toast.makeText(MainActivity.this, "Delete", Toast.LENGTH_SHORT).show();
+                        deleteCheckedItems();
                         return true;
                     case R.id.menu_share:
                         Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
@@ -135,6 +136,48 @@ public class MainActivity extends AppCompatActivity {
                 editText.setText("");
             }
         });
+
+    }
+
+    private void deleteCheckedItems() {
+        List<Task> checkedItems = new ArrayList<>();
+        List<Task> childItems = new ArrayList<>();
+        for (Task task: tasks)
+        {
+            if (task.isDone())
+            {
+                checkedItems.add(task);
+            }
+        }
+
+        if (checkedItems.size() == 0)
+        {
+            Toast.makeText(MainActivity.this, "No checked items to delete in the list", Toast.LENGTH_SHORT).show();
+        }
+
+        for (Task checkedItem : checkedItems)
+        {
+            childItems.addAll(TaskUtils.getChildTasks(TaskUtils.generateTasks(), checkedItem.getTaskId()));
+        }
+
+        if (childItems.size() == 0)
+        {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.delete_dialog_title)
+                    .content("Are you sure you want to delete "+checkedItems.size()+" checked items?")
+                    .positiveText(R.string.agree)
+                    .negativeText(R.string.disagree)
+                    .show();
+        }
+        else
+        {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.delete_dialog_title)
+                    .content("Are you sure you want to delete "+checkedItems.size()+" checked items and " + childItems.size()+" sub-items?")
+                    .positiveText(R.string.agree)
+                    .negativeText(R.string.disagree)
+                    .show();
+        }
 
     }
 
