@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         if (checkedItems.size() == 0)
         {
             Toast.makeText(MainActivity.this, "No checked items to delete in the list", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         for (Task checkedItem : checkedItems)
