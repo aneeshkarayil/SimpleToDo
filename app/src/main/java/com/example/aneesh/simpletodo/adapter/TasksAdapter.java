@@ -56,22 +56,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         Button progressButton = holder.mItemButton;
         CheckBox checkBox = holder.mItemCheckbox;
 
-//        checkBox.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    task.setDone(true);
-//                    boolean allSubTaskDone = checkAllSubTasksDone();
-//
-//                    if (allSubTaskDone)
-//                    {
-//                        Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
-//                        Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
-//                        parentTask.setDone(true);
-//                    }
-//
-//                }
-//            });
-
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                 @Override
                                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
