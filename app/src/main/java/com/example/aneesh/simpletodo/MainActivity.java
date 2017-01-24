@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Task> tasks;
     private UUID parentUUID;
     private TasksAdapter taskAdapter;
+    private TextView parentTaskTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             this.parentUUID = null;
         }
 
-        TextView parentTaskTextView = (TextView)findViewById(R.id.parent_text);
+        parentTaskTextView = (TextView)findViewById(R.id.parent_text);
         parentTaskTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         UUID taskUUID = (UUID)data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
-        //String description = (String)data.getSerializableExtra(EditItemActivity.EDIT_ITEM_DESCRIPTION);
         String description = data.getExtras().get(EditItemActivity.EDIT_ITEM_DESCRIPTION).toString();
 
         if (requestCode == EDIT_ACTIVITY_CODE && resultCode == RESULT_OK)
@@ -139,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-
-            swapAdapterData(updatedTaskList);
+            parentTaskTextView.setText(description);
         }
 
     }
