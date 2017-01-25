@@ -213,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
 
         swapAdapterData(newTaskList);
 
+        Toast.makeText(MainActivity.this, "Deleted "+checkedItems.size() + " checked items and " + childItems.size() + " child items", Toast.LENGTH_SHORT).show();
+
     }
 
     private void swapAdapterData(List<Task> newTaskList) {
