@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Toolbar bottomToolbar = (Toolbar) findViewById(R.id.bottomBar);
+        final Toolbar bottomToolbar = (Toolbar) findViewById(R.id.bottomBar);
         bottomToolbar.inflateMenu(R.menu.menu_bottom);
         bottomToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.menu_done_all:
-                        Toast.makeText(MainActivity.this, "Done all", Toast.LENGTH_SHORT).show();
+                        showCheckAllPopUpMenu(bottomToolbar);
                         return true;
                     case R.id.menu_move:
                         Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
@@ -140,6 +141,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showCheckAllPopUpMenu(Toolbar bottomToolbar) {
+        PopupMenu popup = new PopupMenu(this, bottomToolbar);
+        popup.getMenuInflater().inflate(R.menu.check_all_menu, popup.getMenu());
+
+        popup.show();
     }
 
     private void deleteCheckedItems() {

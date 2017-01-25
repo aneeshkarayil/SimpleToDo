@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_check_all"
+        android:title="Check all" />
+    <item android:id="@+id/menu_check_all_sub_items"
+        android:title="Check all,subitems too" />
+    <item android:id="@+id/menu_uncheck_all"
+        android:title="Uncheck all" />
+    <item android:id="@+id/menu_uncheck_all_sub_items"
+        android:title="Uncheck all,subitems too" />
+</menu>
