@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         deleteCheckedItems();
                         return true;
                     case R.id.menu_share:
-                        Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
+                        shareIntent();
                         return true;
                     case R.id.menu_sort:
                         Toast.makeText(MainActivity.this, "Sort", Toast.LENGTH_SHORT).show();
@@ -141,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void shareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        //shareIntent.setPackage("com.whatsapp");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        try {
+            startActivity(shareIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "No apps have not been installed to share", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showCheckAllPopUpMenu(Toolbar bottomToolbar) {
