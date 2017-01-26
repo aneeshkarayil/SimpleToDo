@@ -65,9 +65,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                                         boolean allSubTaskDone = checkAllSubTasksDone();
 
                                                         if (allSubTaskDone) {
-                                                            Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
+
                                                             Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
-                                                            parentTask.setDone(true);
+                                                            if (parentTask != null)
+                                                            {
+                                                                Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
+                                                                parentTask.setDone(true);
+                                                            }
+
                                                         }
 
                                                     }

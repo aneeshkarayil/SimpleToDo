@@ -147,7 +147,80 @@ public class MainActivity extends AppCompatActivity {
         PopupMenu popup = new PopupMenu(this, bottomToolbar);
         popup.getMenuInflater().inflate(R.menu.check_all_menu, popup.getMenu());
 
+        popup.getMenu().findItem(R.id.menu_check_all).setVisible(false);
+        popup.getMenu().findItem(R.id.menu_check_all_sub_items).setVisible(false);
+        popup.getMenu().findItem(R.id.menu_uncheck_all).setVisible(false);
+        popup.getMenu().findItem(R.id.menu_uncheck_all_sub_items).setVisible(false);
+
+        setCheckAllMenuPopUpVisibility(popup);
+
+
+    }
+
+    private void setCheckAllMenuPopUpVisibility(PopupMenu popup) {
+
+        List<Task> mainTaskList = new ArrayList<>(this.tasks);
+        List<Task> childTaskList = new ArrayList<>();
+
+        for (Task parentTask: mainTaskList)
+        {
+            childTaskList.addAll(TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentTask.getTaskId()));
+        }
+
+        //Main task checks
+        boolean enableUncheckMainTasks = false;
+        boolean enableCheckMainTasks = false;
+        for (Task task: mainTaskList)
+        {
+            if (task.isDone())
+            {
+                enableUncheckMainTasks = true;
+            }
+            else
+            {
+                enableCheckMainTasks = true;
+            }
+
+            if (enableUncheckMainTasks && enableCheckMainTasks)
+            {
+                break;
+            }
+        }
+
+        //Sub-tasks
+        //Main task checks
+        boolean enableUncheckSubTasks = false;
+        boolean enableCheckSubTasks = false;
+
+        for (Task task: childTaskList)
+        {
+            if (task.isDone())
+            {
+                enableUncheckSubTasks = true;
+            }
+            else
+            {
+                enableCheckSubTasks = true;
+            }
+
+            if (enableUncheckSubTasks && enableCheckSubTasks)
+            {
+                break;
+            }
+        }
+
+
+        if (enableCheckMainTasks)
+            popup.getMenu().findItem(R.id.menu_check_all).setVisible(true);
+        if (enableUncheckMainTasks)
+            popup.getMenu().findItem(R.id.menu_uncheck_all).setVisible(true);
+        if (enableCheckSubTasks)
+            popup.getMenu().findItem(R.id.menu_check_all_sub_items).setVisible(true);
+        if (enableUncheckSubTasks)
+            popup.getMenu().findItem(R.id.menu_uncheck_all_sub_items).setVisible(true);
+
         popup.show();
+
     }
 
     private void deleteCheckedItems() {
