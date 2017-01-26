@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpCheckAllPopupMenu(PopupMenu popup) {
 
-        List<Task> mainTaskList = new ArrayList<>(this.tasks);
-        List<Task> childTaskList = new ArrayList<>();
+        final List<Task> mainTaskList = new ArrayList<>(this.tasks);
+        final List<Task> childTaskList = new ArrayList<>();
 
         for (Task parentTask: mainTaskList)
         {
@@ -215,15 +215,25 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_check_all:
+                        markAsDone(mainTaskList, true);
+                        refreshDataSet();
                         Toast.makeText(MainActivity.this, "Menu Check all", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_check_all_sub_items:
+                        markAsDone(mainTaskList, true);
+                        markAsDone(childTaskList, true);
+                        refreshDataSet();
                         Toast.makeText(MainActivity.this, "Menu Check all subitems", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_uncheck_all:
+                        markAsDone(mainTaskList, false);
+                        refreshDataSet();
                         Toast.makeText(MainActivity.this, "Menu Uncheck all", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_uncheck_all_sub_items:
+                        markAsDone(mainTaskList, false);
+                        markAsDone(childTaskList, false);
+                        refreshDataSet();
                         Toast.makeText(MainActivity.this, "Menu Uncheck all subitems", Toast.LENGTH_SHORT).show();
                         return true;
 
@@ -244,6 +254,13 @@ public class MainActivity extends AppCompatActivity {
 
         popup.show();
 
+    }
+
+    private void markAsDone(List<Task> mainTaskList, boolean isDone) {
+        for (Task task: mainTaskList)
+        {
+            task.setDone(isDone);
+        }
     }
 
     private void deleteCheckedItems() {
@@ -299,6 +316,12 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
 
+    }
+
+    private void refreshDataSet()
+    {
+        List<Task> updatedTaskList = TaskUtils.generateTasks();
+        this.swapAdapterData(updatedTaskList);
     }
 
     private void deleteFromList(List<Task> checkedItems, List<Task> childItems) {
