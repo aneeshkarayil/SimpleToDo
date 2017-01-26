@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.aneesh.simpletodo.Utils.TaskShareFormatter;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
@@ -147,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
     private void shareIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        //shareIntent.setPackage("com.whatsapp");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, TaskShareFormatter.getFormattedTask(null));
         try {
             startActivity(shareIntent);
         } catch (android.content.ActivityNotFoundException ex) {
