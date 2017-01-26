@@ -152,12 +152,12 @@ public class MainActivity extends AppCompatActivity {
         popup.getMenu().findItem(R.id.menu_uncheck_all).setVisible(false);
         popup.getMenu().findItem(R.id.menu_uncheck_all_sub_items).setVisible(false);
 
-        setCheckAllMenuPopUpVisibility(popup);
+        setUpCheckAllPopupMenu(popup);
 
 
     }
 
-    private void setCheckAllMenuPopUpVisibility(PopupMenu popup) {
+    private void setUpCheckAllPopupMenu(PopupMenu popup) {
 
         List<Task> mainTaskList = new ArrayList<>(this.tasks);
         List<Task> childTaskList = new ArrayList<>();
@@ -208,6 +208,29 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_check_all:
+                        Toast.makeText(MainActivity.this, "Menu Check all", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_check_all_sub_items:
+                        Toast.makeText(MainActivity.this, "Menu Check all subitems", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_uncheck_all:
+                        Toast.makeText(MainActivity.this, "Menu Uncheck all", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.menu_uncheck_all_sub_items:
+                        Toast.makeText(MainActivity.this, "Menu Uncheck all subitems", Toast.LENGTH_SHORT).show();
+                        return true;
+
+                }
+                return false;
+            }
+        });
 
 
         if (enableCheckMainTasks)
