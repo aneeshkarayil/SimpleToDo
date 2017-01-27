@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class TaskShareFormatter {
 
-    public static String getFormattedTask(UUID parentTaskID)
+    public static String getFormattedTask(List<Task> inputTaskList)
     {
         List<Task> taskList = TaskUtils.generateTasks();
         StringBuilder builder = new StringBuilder();
@@ -33,7 +33,7 @@ public class TaskShareFormatter {
 
         tree.put(null, roots);
 
-        for (Task root: roots)
+        for (Task root: inputTaskList)
         {
             builder.append("\t"+root.getDescription()+"\n"+getTaskHierarchy(root, tree, 1)+"\n");
         }

@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.menu_share:
                         //Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
-                        shareIntent();
+                        shareIntent(tasks);
                         return true;
                     case R.id.menu_sort:
                         Toast.makeText(MainActivity.this, "Sort", Toast.LENGTH_SHORT).show();
@@ -145,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void shareIntent() {
+    private void shareIntent(List<Task> tasks) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, TaskShareFormatter.getFormattedTask(null));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, TaskShareFormatter.getFormattedTask(tasks));
         try {
             startActivity(shareIntent);
         } catch (android.content.ActivityNotFoundException ex) {
