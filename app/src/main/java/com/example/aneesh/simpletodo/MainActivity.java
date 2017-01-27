@@ -1,6 +1,7 @@
 package com.example.aneesh.simpletodo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                         deleteCheckedItems();
                         return true;
                     case R.id.menu_share:
-                        //Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
                         shareIntent(tasks);
                         return true;
                     case R.id.menu_sort:
@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_feedback:
-                        Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
+                        sendEmail();
                         return true;
                     case R.id.menu_settings:
                         Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
@@ -143,6 +144,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void sendEmail() {
+        String uriText =
+                "mailto:aneeshkarayil@gmail.com" +
+                        "?subject=" + Uri.encode("Feedback on your app") +
+                        "&body=" + Uri.encode("some text here");
+
+        Uri uri = Uri.parse(uriText);
+
+        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+        sendIntent.setData(uri);
+        if (sendIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(Intent.createChooser(sendIntent, "Send email"));
+        }
     }
 
     private void shareIntent(List<Task> tasks) {
