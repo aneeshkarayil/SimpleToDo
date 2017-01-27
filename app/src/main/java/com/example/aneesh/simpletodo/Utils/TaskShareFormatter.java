@@ -35,14 +35,14 @@ public class TaskShareFormatter {
 
         for (Task root: roots)
         {
-            builder.append("\t"+root.getDescription()+"\n"+getTaskHierarchy(root, tree)+"\n");
+            builder.append("\t"+root.getDescription()+"\n"+getTaskHierarchy(root, tree, 1)+"\n");
         }
 
         return builder.toString();
     }
 
 
-    public static String getTaskHierarchy(Task task, Map<UUID,List<Task>>  uuidMap)
+    public static String getTaskHierarchy(Task task, Map<UUID,List<Task>>  uuidMap, int tabCount)
     {
         String description = "";
 
@@ -53,11 +53,18 @@ public class TaskShareFormatter {
 
         List<Task> tasks = uuidMap.get(task.getTaskId());
 
+        StringBuilder tabString = new StringBuilder();
+
+        for (int i = 0; i <= tabCount; i++)
+        {
+            tabString.append("  ");
+        }
+
         String childDescription = "";
 
         for (Task childTasks: tasks)
         {
-            childDescription = childDescription + "\t -"+childTasks.getDescription()+"\n"+ getTaskHierarchy(childTasks, uuidMap);
+            childDescription = childDescription + tabString.toString()+ "- ["+(childTasks.isDone()? "X]":" ]") +childTasks.getDescription()+"\n"+ getTaskHierarchy(childTasks, uuidMap, ++tabCount);
         }
 
         return childDescription;
