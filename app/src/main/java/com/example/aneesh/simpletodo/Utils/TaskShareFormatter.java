@@ -35,7 +35,7 @@ public class TaskShareFormatter {
 
         for (Task root: roots)
         {
-            builder.append("\t"+getTaskHierarchy(root, tree)+"\n");
+            builder.append("\t"+root.getDescription()+"\n"+getTaskHierarchy(root, tree)+"\n");
         }
 
         return builder.toString();
@@ -44,7 +44,7 @@ public class TaskShareFormatter {
 
     public static String getTaskHierarchy(Task task, Map<UUID,List<Task>>  uuidMap)
     {
-        String description = task.getDescription()+"\n";
+        String description = "";
 
         if (uuidMap.get(task.getTaskId()) == null)
         {
@@ -60,7 +60,7 @@ public class TaskShareFormatter {
             childDescription = childDescription + "\t -"+childTasks.getDescription()+"\n"+ getTaskHierarchy(childTasks, uuidMap);
         }
 
-        return description + childDescription;
+        return childDescription;
     }
 
 }
