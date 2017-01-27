@@ -66,6 +66,15 @@
             android:id="@+id/add_item_text"/>
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_voice"
+            android:tint="@android:color/darker_gray"
+            android:background="@android:color/white"
+            />
+
+        <ImageView
             android:id="@+id/add_item_click"
             android:background="@android:color/holo_blue_light"
             android:layout_width="wrap_content"
