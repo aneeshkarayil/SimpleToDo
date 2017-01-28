@@ -3,6 +3,7 @@ package com.example.aneesh.simpletodo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity  {
 
     public static final int EDIT_ACTIVITY_CODE = 100;
+    public static final int VOICE_RECOGNITION_REQUEST_CODE = 101;
     public static final String EDIT_TASK_UUID = "com.aadhyaapps.anothertodo.MainActivity.EDIT_TASK_UUID";
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
     public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity  {
     private UUID parentUUID;
     private TasksAdapter taskAdapter;
     private TextView parentTaskTextView;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        final EditText editText = (EditText) findViewById(R.id.add_item_text);
+       this.editText = (EditText) findViewById(R.id.add_item_text);
 
         ImageView addItemView = (ImageView) findViewById(R.id.add_item_click);
         addItemView.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +150,25 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        ImageView speechToTextView = (ImageView)findViewById(R.id.speech_view);
+        speechToTextView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Invoked speech to text ", Toast.LENGTH_SHORT).show();
+                startVoiceRecognitionActivity();
+            }
+        });
+
+    }
+
+    public void startVoiceRecognitionActivity() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Speak...");
+        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
     @Override
@@ -412,10 +434,9 @@ public class MainActivity extends AppCompatActivity  {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        UUID taskUUID = (UUID) data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
-        String description = data.getExtras().get(EditItemActivity.EDIT_ITEM_DESCRIPTION).toString();
-
         if (requestCode == EDIT_ACTIVITY_CODE && resultCode == RESULT_OK) {
+            UUID taskUUID = (UUID) data.getSerializableExtra(EditItemActivity.EDIT_ITEM_UUID);
+            String description = data.getExtras().get(EditItemActivity.EDIT_ITEM_DESCRIPTION).toString();
             List<Task> updatedTaskList = TaskUtils.generateTasks();
             for (Task task : updatedTaskList) {
                 if (task.getTaskId() != null && taskUUID != null && task.getTaskId().equals(taskUUID)) {
@@ -424,6 +445,19 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
             parentTaskTextView.setText(description);
+        }
+
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+            if (matches.size() > 0)
+            {
+                this.editText.setText(matches.get(0));
+            }
+            else
+            {
+                Toast.makeText(this, "Could not recognize the voice.", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
