@@ -18,6 +18,7 @@ import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.model.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,11 +29,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     private List<Task> taskList;
     private Context context;
+    private List<Task> taskListCopy;
 
     public TasksAdapter(Context context, List<Task> taskList)
     {
         this.context = context;
         this.taskList = taskList;
+        this.taskListCopy = new ArrayList<Task>(taskList);
     }
 
     @Override
@@ -45,6 +48,22 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
+    }
+
+    public void filter(String text) {
+        taskList.clear();
+        if(text.isEmpty()){
+            taskList.addAll(taskListCopy);
+        } else{
+            text = text.toLowerCase();
+            for(Task item: taskListCopy){
+                if(item.getDescription().toLowerCase().contains(text))
+                {
+                    taskList.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
