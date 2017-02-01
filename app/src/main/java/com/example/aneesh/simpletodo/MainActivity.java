@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.Utils.TaskShareFormatter;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
+import com.example.aneesh.simpletodo.activity.SettingsActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity  {
 
     public static final int EDIT_ACTIVITY_CODE = 100;
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 101;
+    public static final int SETTING_ACTIVITY_REQUEST_CODE = 102;
     public static final String EDIT_TASK_UUID = "com.aadhyaapps.anothertodo.MainActivity.EDIT_TASK_UUID";
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
     public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
@@ -121,7 +123,8 @@ public class MainActivity extends AppCompatActivity  {
                         sendEmail();
                         return true;
                     case R.id.menu_settings:
-                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        showSettingsScreen();
                         return true;
                 }
 
@@ -160,6 +163,13 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+    }
+
+    private void showSettingsScreen() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        //intent.putExtra(MainActivity.TASK_DESCRIPTION, parentTask.getDescription());
+        //intent.putExtra(MainActivity.EDIT_TASK_UUID, parentTask.getTaskId());
+        startActivityForResult(intent, SETTING_ACTIVITY_REQUEST_CODE);
     }
 
     public void startVoiceRecognitionActivity() {
