@@ -1,6 +1,8 @@
 package com.example.aneesh.simpletodo.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,9 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar.setTitle(R.string.settings);
         toolbar.setLogo(R.drawable.ic_arrow_back);
 
-        // Display the fragment as the main content.
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.preferences, new SettingsFragment())
-//                .commit();
     }
+
+
 }
