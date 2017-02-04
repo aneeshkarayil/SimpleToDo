@@ -34,22 +34,6 @@ public class MoveFragment extends DialogFragment {
         return frag;
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.move_fragment, container);
-//    }
-//
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        // Fetch arguments from bundle and set title
-//        String title = getArguments().getString("title", "Enter Name");
-//        getDialog().setTitle(title);
-//
-//
-//    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
