@@ -9,4 +9,8 @@
     <string name="settings_theme">Theme</string>
     <string name="default_theme">Default</string>
     <string name="move_test_to">Move Test to:</string>
+    <string name="move">Move</string>
+    <string name="main_list">Main List</string>
+    <string name="level_up">Level Up</string>
+    <string name="move_to_main_list">MOVE TO MAIN LIST</string>
 </resources>
