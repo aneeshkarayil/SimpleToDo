@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.activity.SettingsActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
+import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.util.ArrayList;
@@ -101,7 +103,8 @@ public class MainActivity extends AppCompatActivity  {
                         showCheckAllPopUpMenu(bottomToolbar);
                         return true;
                     case R.id.menu_move:
-                        Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
+                        showMoveFragment();
                         return true;
                     case R.id.menu_delete:
                         deleteCheckedItems();
@@ -162,6 +165,13 @@ public class MainActivity extends AppCompatActivity  {
                 startVoiceRecognitionActivity();
             }
         });
+
+    }
+
+    private void showMoveFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        MoveFragment moveFragment = MoveFragment.newInstance("Some Title");
+        moveFragment.show(fm, "fragment_edit_name");
 
     }
 
