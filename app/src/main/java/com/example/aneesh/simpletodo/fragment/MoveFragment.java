@@ -127,7 +127,16 @@ public class MoveFragment extends DialogFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final TextView parentTaskView = (TextView)v.findViewById(R.id.fragment_parent_tv);
-        parentTaskView.setText("Parent");
+        if (parentId == null)
+        {
+            parentTaskView.setVisibility(View.GONE);
+        }
+        else
+        {
+            parentTaskView.setText(TaskUtils.getTaskForUUID(parentId).getDescription());
+        }
+
+
 
         return v;
     }
