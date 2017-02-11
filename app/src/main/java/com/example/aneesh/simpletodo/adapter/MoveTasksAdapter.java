@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.util.ArrayList;
@@ -30,12 +31,14 @@ public class MoveTasksAdapter extends RecyclerView.Adapter<MoveTasksAdapter.View
     private List<Task> taskList;
     private Context context;
     private List<Task> taskListCopy;
+    private MoveFragment moveFragment;
 
-    public MoveTasksAdapter(Context context, List<Task> taskList)
+    public MoveTasksAdapter(Context context, List<Task> taskList, MoveFragment fragment)
     {
         this.context = context;
         this.taskList = taskList;
         this.taskListCopy = new ArrayList<Task>(taskList);
+        this.moveFragment = fragment;
     }
 
     @Override
@@ -97,6 +100,7 @@ public class MoveTasksAdapter extends RecyclerView.Adapter<MoveTasksAdapter.View
 
     public void swapData(List<Task> newData)
     {
+        moveFragment.enableButtons();
         this.taskList.clear();
         this.taskList.addAll(newData);
         this.notifyDataSetChanged();
@@ -129,6 +133,7 @@ public class MoveTasksAdapter extends RecyclerView.Adapter<MoveTasksAdapter.View
 //                Intent intent = new Intent(context, MainActivity.class);
 //                intent.putExtra(MainActivity.PARENT_UUID, task.getTaskId());
 //                ((Activity)context).startActivity(intent);
+                moveFragment.setParentId(task.getTaskId());
                 swapData(TaskUtils.getChildTasks(TaskUtils.generateTasks(),task.getTaskId()));
             }
         }

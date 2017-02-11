@@ -34,11 +34,20 @@ import java.util.UUID;
 
 public class MoveFragment extends DialogFragment {
     UUID parentId;
+    // Watch for button clicks.
+    Button mainListButton;
+    Button moveToMainListButton;
+    Button levelUpButton;
 
     public MoveFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
+    }
+
+    public void setParentId(UUID parentId)
+    {
+        this.parentId = parentId;
     }
 
     @Override
@@ -68,36 +77,6 @@ public class MoveFragment extends DialogFragment {
         return frag;
     }
 
-
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        // Use the Builder class for convenient dialog construction
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-//
-//        builder.setTitle(R.string.move)
-//                .setView(inflater.inflate(R.layout.move_fragment, null))
-//                .setOnItemSelectedListener();
-//
-////                .setPositiveButton(R.string.main_list, new DialogInterface.OnClickListener() {
-////                    public void onClick(DialogInterface dialog, int id) {
-////                        // FIRE ZE MISSILES!
-////                    }
-////                })
-////                .setNeutralButton(R.string.move_to_main_list, new DialogInterface.OnClickListener() {
-////                    public void onClick(DialogInterface dialog, int id) {
-////                        // FIRE ZE MISSILES!
-////                    }
-////                })
-////                .setNegativeButton(R.string.level_up, new DialogInterface.OnClickListener() {
-////                    public void onClick(DialogInterface dialog, int id) {
-////                        // User cancelled the dialog
-////                    }
-////                });
-//        // Create the AlertDialog object and return it
-//        return builder.create();
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,8 +93,14 @@ public class MoveFragment extends DialogFragment {
         }
 
 
-        // Watch for button clicks.
-        Button mainListButton = (Button)v.findViewById(R.id.fragment_main_list_button);
+
+        mainListButton = (Button)v.findViewById(R.id.fragment_main_list_button);
+        levelUpButton = (Button)v.findViewById(R.id.fragment_level_up_button);
+        moveToMainListButton = (Button)v.findViewById(R.id.fragment_move_to_main_list_button);
+
+        enableButtons();
+
+
         mainListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +112,7 @@ public class MoveFragment extends DialogFragment {
         moveToolbar.setTitle(R.string.move);
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
-        MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks);
+        MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks, this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -142,8 +127,22 @@ public class MoveFragment extends DialogFragment {
         }
 
 
-
         return v;
+    }
+
+    public void enableButtons() {
+        if (parentId == null)
+        {
+            mainListButton.setEnabled(false);
+            levelUpButton.setEnabled(false);
+            moveToMainListButton.setEnabled(false);
+        }
+        else
+        {
+            mainListButton.setEnabled(true);
+            levelUpButton.setEnabled(true);
+            moveToMainListButton.setEnabled(true);
+        }
     }
 
 }
