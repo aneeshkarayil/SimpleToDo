@@ -123,7 +123,7 @@ public class MoveFragment extends DialogFragment {
         });
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
-        TasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks);
+        MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
