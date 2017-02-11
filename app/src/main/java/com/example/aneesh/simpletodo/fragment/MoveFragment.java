@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
@@ -154,6 +155,7 @@ public class MoveFragment extends DialogFragment {
         if ((parentId == null && TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId() == null) || (TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId() != null && parentId!= null && parentId.equals(TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId())))
         {
             moveToMainListButton.setEnabled(false);
+            Toast.makeText(getActivity(), "Both the destination and target is at same level", Toast.LENGTH_SHORT).show();
         }
         else
         {
