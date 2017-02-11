@@ -59,18 +59,7 @@ public class MoveFragment extends DialogFragment {
         checkedTasks=(List<UUID>)getArguments().getSerializable("checkedTasks");
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        Button mainListButton = (Button)getView().findViewById(R.id.fragment_main_list_button);
-        mainListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Move To Main List", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     public static MoveFragment newInstance(UUID parentUUID, List<UUID> checkedTaskIds) {
         MoveFragment frag = new MoveFragment();
@@ -106,14 +95,6 @@ public class MoveFragment extends DialogFragment {
 
         enableButtons();
 
-
-        mainListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Move To Main List", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         final Toolbar moveToolbar = (Toolbar) v.findViewById(R.id.move_toolbar);
         moveToolbar.setTitle(R.string.move);
 
@@ -147,6 +128,15 @@ public class MoveFragment extends DialogFragment {
                     taskAdapter.swapData(TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentId));
                 }
 
+            }
+        });
+
+        mainListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task parentTask = TaskUtils.getTaskForUUID(parentId);
+                parentId = null;
+                taskAdapter.swapData(TaskUtils.getParentTasks(TaskUtils.generateTasks()));
             }
         });
 
