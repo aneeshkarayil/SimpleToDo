@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity  {
                         return true;
                     case R.id.menu_move:
                         //Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
+
                         showMoveFragment(parentUUID);
                         return true;
                     case R.id.menu_delete:
@@ -169,10 +170,34 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void showMoveFragment(UUID parentUUID) {
+        boolean isCheckedTasks = checkAnyCheckedTasks();
+
+        if (!isCheckedTasks)
+        {
+            Toast.makeText(this, "There are no checked items in this list", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FragmentManager fm = getSupportFragmentManager();
         MoveFragment moveFragment = MoveFragment.newInstance(parentUUID);
         moveFragment.show(fm, "fragment_edit_name");
 
+    }
+
+    private boolean checkAnyCheckedTasks() {
+
+        boolean hasCheckedTasks = false;
+
+        for (Task task: tasks)
+        {
+            if (task.isDone())
+            {
+                hasCheckedTasks = true;
+                break;
+            }
+        }
+
+        return hasCheckedTasks;
     }
 
     private void showSettingsScreen() {
