@@ -13,4 +13,5 @@
     <string name="main_list">Main List</string>
     <string name="level_up">Level Up</string>
     <string name="move_to_main_list">MOVE TO MAIN LIST</string>
+    <string name="move_to_this_list">MOVE TO THIS LIST</string>
 </resources>

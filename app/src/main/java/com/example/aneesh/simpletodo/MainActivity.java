@@ -170,34 +170,34 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void showMoveFragment(UUID parentUUID) {
-        boolean isCheckedTasks = checkAnyCheckedTasks();
 
-        if (!isCheckedTasks)
+        List<UUID> checkedTaskIds = getCheckedTaskIds();
+
+        if (checkedTaskIds.size() == 0)
         {
             Toast.makeText(this, "There are no checked items in this list", Toast.LENGTH_SHORT).show();
             return;
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        MoveFragment moveFragment = MoveFragment.newInstance(parentUUID);
+        MoveFragment moveFragment = MoveFragment.newInstance(parentUUID, checkedTaskIds);
         moveFragment.show(fm, "fragment_edit_name");
 
     }
 
-    private boolean checkAnyCheckedTasks() {
+    private List<UUID> getCheckedTaskIds() {
 
-        boolean hasCheckedTasks = false;
+        List<UUID> checkedTasks = new ArrayList<>();
 
         for (Task task: tasks)
         {
             if (task.isDone())
             {
-                hasCheckedTasks = true;
-                break;
+               checkedTasks.add(task.getTaskId());
             }
         }
 
-        return hasCheckedTasks;
+        return checkedTasks;
     }
 
     private void showSettingsScreen() {

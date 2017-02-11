@@ -25,6 +25,7 @@ import com.example.aneesh.simpletodo.adapter.MoveTasksAdapter;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.model.Task;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ import java.util.UUID;
 
 public class MoveFragment extends DialogFragment {
     UUID parentId;
+    List<UUID> checkedTasks;
     // Watch for button clicks.
     Button mainListButton;
     Button moveToMainListButton;
@@ -54,6 +56,7 @@ public class MoveFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parentId = (UUID) getArguments().getSerializable("parentUUID");
+        checkedTasks=(List<UUID>)getArguments().getSerializable("checkedTasks");
     }
 
     @Override
@@ -69,10 +72,11 @@ public class MoveFragment extends DialogFragment {
         });
     }
 
-    public static MoveFragment newInstance(UUID parentUUID) {
+    public static MoveFragment newInstance(UUID parentUUID, List<UUID> checkedTaskIds) {
         MoveFragment frag = new MoveFragment();
         Bundle args = new Bundle();
         args.putSerializable("parentUUID", parentUUID);
+        args.putSerializable("checkedTasks", (Serializable) checkedTaskIds);
         frag.setArguments(args);
         return frag;
     }
@@ -133,12 +137,14 @@ public class MoveFragment extends DialogFragment {
     public void enableButtons() {
         if (parentId == null)
         {
+            moveToMainListButton.setText(R.string.move_to_main_list);
             mainListButton.setEnabled(false);
             levelUpButton.setEnabled(false);
             moveToMainListButton.setEnabled(false);
         }
         else
         {
+            moveToMainListButton.setText(R.string.move_to_this_list);
             mainListButton.setEnabled(true);
             levelUpButton.setEnabled(true);
             moveToMainListButton.setEnabled(true);

@@ -130,9 +130,6 @@ public class MoveTasksAdapter extends RecyclerView.Adapter<MoveTasksAdapter.View
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) {
                 Task task = taskList.get(position);
-//                Intent intent = new Intent(context, MainActivity.class);
-//                intent.putExtra(MainActivity.PARENT_UUID, task.getTaskId());
-//                ((Activity)context).startActivity(intent);
                 moveFragment.setParentId(task.getTaskId());
                 swapData(TaskUtils.getChildTasks(TaskUtils.generateTasks(),task.getTaskId()));
             }
