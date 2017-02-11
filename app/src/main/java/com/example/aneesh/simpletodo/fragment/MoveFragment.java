@@ -149,19 +149,25 @@ public class MoveFragment extends DialogFragment {
     }
 
     public void enableButtons() {
+        if ((parentId == null && TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId() == null) || (TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId() != null && parentId!= null && parentId.equals(TaskUtils.getTaskForUUID(checkedTasks.get(0)).getParentTaskId())))
+        {
+            moveToMainListButton.setEnabled(false);
+        }
+        else
+        {
+            moveToMainListButton.setEnabled(true);
+        }
         if (parentId == null)
         {
             moveToMainListButton.setText(R.string.move_to_main_list);
             mainListButton.setEnabled(false);
             levelUpButton.setEnabled(false);
-            moveToMainListButton.setEnabled(false);
         }
         else
         {
             moveToMainListButton.setText(R.string.move_to_this_list);
             mainListButton.setEnabled(true);
             levelUpButton.setEnabled(true);
-            moveToMainListButton.setEnabled(true);
         }
     }
 
