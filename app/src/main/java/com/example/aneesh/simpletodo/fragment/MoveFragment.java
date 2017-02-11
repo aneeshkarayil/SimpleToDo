@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.adapter.MoveTasksAdapter;
@@ -139,7 +140,8 @@ public class MoveFragment extends DialogFragment {
                 {
                     TaskUtils.getTaskForUUID(taskUUID).setParentTaskId(parentId);
                 }
-                getActivity().finish();
+                ((MainActivity)getActivity()).refreshDataSet();
+                dismiss();
 
             }
         });

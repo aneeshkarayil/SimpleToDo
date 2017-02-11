@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void refreshDataSet()
+    public void refreshDataSet()
     {
         List<Task> updatedTaskList = TaskUtils.generateTasks();
         this.swapAdapterData(updatedTaskList);
