@@ -102,6 +102,8 @@ public class MoveFragment extends DialogFragment {
         levelUpButton = (Button)v.findViewById(R.id.fragment_level_up_button);
         moveToMainListButton = (Button)v.findViewById(R.id.fragment_move_to_main_list_button);
 
+
+
         enableButtons();
 
 
@@ -116,7 +118,7 @@ public class MoveFragment extends DialogFragment {
         moveToolbar.setTitle(R.string.move);
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
-        MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks, this);
+        final MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks, this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -129,6 +131,24 @@ public class MoveFragment extends DialogFragment {
         {
             parentTaskView.setText(TaskUtils.getTaskForUUID(parentId).getDescription());
         }
+
+        levelUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task parentTask = TaskUtils.getTaskForUUID(parentId);
+                parentId = parentTask.getParentTaskId();
+
+                if (parentId == null)
+                {
+                    taskAdapter.swapData(TaskUtils.getParentTasks(TaskUtils.generateTasks()));
+                }
+                else
+                {
+                    taskAdapter.swapData(TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentId));
+                }
+
+            }
+        });
 
 
         return v;
