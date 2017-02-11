@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.adapter.MoveTasksAdapter;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -122,7 +123,7 @@ public class MoveFragment extends DialogFragment {
         });
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
-        TasksAdapter taskAdapter = new TasksAdapter(getActivity(), tasks);
+        TasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
