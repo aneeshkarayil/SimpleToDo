@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity  {
                         return true;
                     case R.id.menu_move:
                         //Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
-                        showMoveFragment();
+                        showMoveFragment(parentUUID);
                         return true;
                     case R.id.menu_delete:
                         deleteCheckedItems();
@@ -168,9 +168,9 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void showMoveFragment() {
+    private void showMoveFragment(UUID parentUUID) {
         FragmentManager fm = getSupportFragmentManager();
-        MoveFragment moveFragment = MoveFragment.newInstance("Some Title");
+        MoveFragment moveFragment = MoveFragment.newInstance(parentUUID);
         moveFragment.show(fm, "fragment_edit_name");
 
     }

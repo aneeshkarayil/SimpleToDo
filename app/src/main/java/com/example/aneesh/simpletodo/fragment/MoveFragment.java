@@ -20,17 +20,28 @@ import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
+import com.example.aneesh.simpletodo.model.Task;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Aneesh on 2/4/2017.
  */
 
 public class MoveFragment extends DialogFragment {
+    UUID parentId;
 
     public MoveFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        parentId = (UUID) getArguments().getSerializable("parentUUID");
     }
 
     @Override
@@ -46,10 +57,10 @@ public class MoveFragment extends DialogFragment {
         });
     }
 
-    public static MoveFragment newInstance(String title) {
+    public static MoveFragment newInstance(UUID parentUUID) {
         MoveFragment frag = new MoveFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putSerializable("parentUUID", parentUUID);
         frag.setArguments(args);
         return frag;
     }
@@ -88,6 +99,16 @@ public class MoveFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.move_fragment, container, false);
+        List<Task> tasks;
+
+        if (parentId != null)
+        {
+            tasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentId);
+        }
+        else
+        {
+            tasks = TaskUtils.getParentTasks(TaskUtils.generateTasks());
+        }
 
 
         // Watch for button clicks.
@@ -100,7 +121,7 @@ public class MoveFragment extends DialogFragment {
         });
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
-        TasksAdapter taskAdapter = new TasksAdapter(getActivity(), TaskUtils.getParentTasks(TaskUtils.generateTasks()));
+        TasksAdapter taskAdapter = new TasksAdapter(getActivity(), tasks);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
