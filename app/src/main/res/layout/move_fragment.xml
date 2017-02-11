@@ -6,7 +6,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/move"/>
+
+    <TextView
+        android:id="@+id/fragment_move_to_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/move_test_to"/>
+
+    <TextView
+        android:id="@+id/fragment_parent_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_recycler_view"

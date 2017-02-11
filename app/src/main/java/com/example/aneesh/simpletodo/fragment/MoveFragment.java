@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aneesh.simpletodo.MainActivity;
@@ -124,6 +125,9 @@ public class MoveFragment extends DialogFragment {
         TasksAdapter taskAdapter = new TasksAdapter(getActivity(), tasks);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        final TextView parentTaskView = (TextView)v.findViewById(R.id.fragment_parent_tv);
+        parentTaskView.setText("Parent");
 
         return v;
     }
