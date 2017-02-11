@@ -60,4 +60,7 @@ public class Task {
     }
 
 
+    public void setParentTaskId(UUID parentUUID) {
+        this.parentTaskId = parentUUID;
+    }
 }

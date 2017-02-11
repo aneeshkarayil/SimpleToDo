@@ -1,28 +1,20 @@
 package com.example.aneesh.simpletodo.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.adapter.MoveTasksAdapter;
-import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.io.Serializable;
@@ -137,6 +129,18 @@ public class MoveFragment extends DialogFragment {
                 Task parentTask = TaskUtils.getTaskForUUID(parentId);
                 parentId = null;
                 taskAdapter.swapData(TaskUtils.getParentTasks(TaskUtils.generateTasks()));
+            }
+        });
+
+        moveToMainListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (UUID taskUUID: checkedTasks)
+                {
+                    TaskUtils.getTaskForUUID(taskUUID).setParentTaskId(parentId);
+                }
+                getActivity().finish();
+
             }
         });
 
