@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +122,9 @@ public class MoveFragment extends DialogFragment {
                 Toast.makeText(getActivity(), "Move To Main List", Toast.LENGTH_SHORT).show();
             }
         });
+
+        final Toolbar moveToolbar = (Toolbar) v.findViewById(R.id.move_toolbar);
+        moveToolbar.setTitle(R.string.move);
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_recycler_view);
         MoveTasksAdapter taskAdapter = new MoveTasksAdapter(getActivity(), tasks);
