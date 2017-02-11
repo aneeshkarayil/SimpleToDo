@@ -142,7 +142,19 @@ public class MoveFragment extends DialogFragment {
                     TaskUtils.getTaskForUUID(taskUUID).setParentTaskId(parentId);
                 }
                 ((MainActivity)getActivity()).refreshDataSet();
+
+                String message;
+                if (checkedTasks.size() == 1)
+                {
+                    message = "Successfully moved the task "+ TaskUtils.getTaskForUUID(checkedTasks.get(0)).getDescription();
+                }
+                else
+                {
+                    message = "Successfully moved " + checkedTasks.size() + " tasks";
+                }
+
                 dismiss();
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
             }
         });
