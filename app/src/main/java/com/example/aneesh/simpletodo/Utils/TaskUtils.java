@@ -1,7 +1,11 @@
 package com.example.aneesh.simpletodo.Utils;
 
 import com.example.aneesh.simpletodo.model.Task;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -67,6 +71,27 @@ public class TaskUtils {
         taskList.add(task_3_2_1);
 
         return taskList;
+    }
+
+    public static Task parseJSON(String json) {
+        Gson gson = new GsonBuilder().create();
+        Task task = gson.fromJson(json, Task.class);
+        return task;
+    }
+
+    public static String convertToJSON(List<Task> tasks)
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(tasks);
+        return json;
+    }
+
+    public static List<Task> convertFromJSON(String json)
+    {
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Task>>(){}.getType();
+        List<Task> tasks = (List<Task>) gson.fromJson(json, listType);
+        return tasks;
     }
 
     public static List<Task> getParentTasks(List<Task> inputList)

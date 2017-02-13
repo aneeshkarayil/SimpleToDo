@@ -17,14 +17,16 @@ public class TaskUtilsTest {
     @Test
     public void createTestTasks() throws Exception {
 
-        List<Task> taskList = TaskUtils.createTestTasks();
+        List<Task> taskList = TaskUtils.generateTasks();
+
+
         Assert.assertEquals("Expected the size to be ", 11, taskList.size());
     }
 
     @Test
     public void getParentTasks() throws Exception {
 
-        List<Task> taskList = TaskUtils.createTestTasks();
+        List<Task> taskList = TaskUtils.generateTasks();
 
         List<Task> parentsTaskList = TaskUtils.getParentTasks(taskList);
 
@@ -34,7 +36,7 @@ public class TaskUtilsTest {
     @Test
     public void getChildTasks() throws Exception {
 
-        List<Task> taskList = TaskUtils.createTestTasks();
+        List<Task> taskList = TaskUtils.generateTasks();
 
         Task t1 = null;
 
@@ -46,7 +48,7 @@ public class TaskUtilsTest {
             }
         }
 
-        Assert.assertEquals("Expected to have no child for parent task 1", 0, TaskUtils.getChildTasks(taskList, t1).size());
+        Assert.assertEquals("Expected to have no child for parent task 1", 0, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
         Assert.assertEquals("Expected to have no child for parent task 1", 0, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
 
         for (Task inputTask: taskList)
@@ -57,7 +59,7 @@ public class TaskUtilsTest {
             }
         }
 
-        Assert.assertEquals( 3, TaskUtils.getChildTasks(taskList, t1).size());
+        Assert.assertEquals( 3, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
         Assert.assertEquals( 3, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
 
         for (Task inputTask: taskList)
@@ -69,7 +71,7 @@ public class TaskUtilsTest {
         }
 
 
-        Assert.assertEquals( 2, TaskUtils.getChildTasks(taskList, t1).size());
+        Assert.assertEquals( 2, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
         Assert.assertEquals( 2, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
     }
 
