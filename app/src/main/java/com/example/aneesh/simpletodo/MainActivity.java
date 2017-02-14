@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void writeJsonFile() {
+    public void writeJsonFile() {
         try {
             TaskUtils.writeJSONToFile(TaskUtils.convertToJSON(TaskUtils.generateTasks()),getFileOutputStream());
             Toast.makeText(this, "Written Json to file", Toast.LENGTH_SHORT).show();
@@ -551,6 +551,7 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
             parentTaskTextView.setText(description);
+            writeJsonFile();
         }
 
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {

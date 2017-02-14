@@ -94,6 +94,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
                                                         }
 
+                                                        writeJSONToFile();
+
                                                     }
                                                     else
                                                     {
@@ -104,6 +106,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                                             Toast.makeText(context, "marking parent task as not done", Toast.LENGTH_SHORT).show();
                                                             parentTask.setDone(false);
                                                         }
+                                                        writeJSONToFile();
 
                                                     }
                                                 }
@@ -132,6 +135,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         else
         {
             checkBox.setChecked(false);
+        }
+    }
+
+    private void writeJSONToFile() {
+        if (context instanceof MainActivity)
+        {
+            ((MainActivity) context).writeJsonFile();
         }
     }
 
