@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity  {
                 newTaskList.add(newTask);
                 TaskUtils.generateTasks().add(newTask);
 
-                swapAdapterData(newTaskList);
+                swapAdapterData(newTaskList, true);
 
                 editText.setText("");
             }
@@ -499,7 +499,7 @@ public class MainActivity extends AppCompatActivity  {
     public void refreshDataSet()
     {
         List<Task> updatedTaskList = TaskUtils.generateTasks();
-        this.swapAdapterData(updatedTaskList);
+        this.swapAdapterData(updatedTaskList, false);
     }
 
     private void deleteFromList(List<Task> checkedItems, List<Task> childItems) {
@@ -516,19 +516,24 @@ public class MainActivity extends AppCompatActivity  {
             }
         }
 
-        swapAdapterData(newTaskList);
+        swapAdapterData(newTaskList, true);
 
         Toast.makeText(MainActivity.this, "Deleted "+checkedItems.size() + " checked items and " + childItems.size() + " child items", Toast.LENGTH_SHORT).show();
 
     }
 
-    private void swapAdapterData(List<Task> newTaskList) {
+    private void swapAdapterData(List<Task> newTaskList, boolean dataChanged) {
         if (parentUUID == null) {
             taskAdapter.swapData(TaskUtils.getParentTasks(newTaskList));
         } else {
             taskAdapter.swapData(TaskUtils.getChildTasks(newTaskList, parentUUID));
         }
-        writeJsonFile();
+
+        if (dataChanged)
+        {
+            writeJsonFile();
+        }
+
     }
 
     @Override
@@ -567,7 +572,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         List<Task> updatedTaskList = TaskUtils.generateTasks();
-        this.swapAdapterData(updatedTaskList);
+        this.swapAdapterData(updatedTaskList, false);
     }
 
 
@@ -575,7 +580,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onRestart() {
         super.onRestart();
         List<Task> updatedTaskList = TaskUtils.generateTasks();
-        this.swapAdapterData(updatedTaskList);
+        this.swapAdapterData(updatedTaskList, false);
     }
 
 }
