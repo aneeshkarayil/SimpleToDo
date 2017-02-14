@@ -528,6 +528,7 @@ public class MainActivity extends AppCompatActivity  {
         } else {
             taskAdapter.swapData(TaskUtils.getChildTasks(newTaskList, parentUUID));
         }
+        writeJsonFile();
     }
 
     @Override
