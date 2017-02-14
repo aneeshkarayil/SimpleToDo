@@ -5,10 +5,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static android.os.ParcelFileDescriptor.MODE_WORLD_WRITEABLE;
 
 /**
  * Created by Aneesh on 1/8/2017.
@@ -19,7 +26,12 @@ import java.util.UUID;
  */
 public class TaskUtils {
 
-    private static List<Task> taskList;
+    public static List<Task> taskList;
+
+    public static void setTaskList(List<Task> tasks)
+    {
+        taskList = tasks;
+    }
 
     public static List<Task> generateTasks()
     {
@@ -84,6 +96,22 @@ public class TaskUtils {
         Gson gson = new Gson();
         String json = gson.toJson(tasks);
         return json;
+    }
+
+    public static void writeJSONToFile(String json, FileOutputStream fos) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+        writer.write(json);
+        writer.close();
+    }
+
+    public static String readJSONFromFile(BufferedReader input) throws IOException {
+        String json;
+        StringBuffer buffer = new StringBuffer();
+        while ((json = input.readLine()) != null) {
+            buffer.append(json + "\n");
+        }
+        String text = buffer.toString();
+        return text;
     }
 
     public static List<Task> convertFromJSON(String json)

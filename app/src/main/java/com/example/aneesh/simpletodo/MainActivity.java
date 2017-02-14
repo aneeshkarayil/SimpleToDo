@@ -31,6 +31,11 @@ import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.Task;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +59,14 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //writeJsonFile();
+        initiateTaskList();
+        if (getFileReader() == null)
+        {
+            writeJsonFile();
+        }
+
+
 
         Toolbar appBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(appBar);
@@ -167,6 +180,48 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+    }
+
+    private void writeJsonFile() {
+        try {
+            TaskUtils.writeJSONToFile(TaskUtils.convertToJSON(TaskUtils.generateTasks()),getFileOutputStream());
+            Toast.makeText(this, "Written Json to file", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error trying to write to file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initiateTaskList() {
+        if (TaskUtils.taskList == null && getFileReader() != null)
+        {
+            try {
+                String json = TaskUtils.readJSONFromFile(getFileReader());
+                List<Task> taskList = TaskUtils.convertFromJSON(json);
+                Toast.makeText(this, "Read from json file", Toast.LENGTH_SHORT).show();
+                TaskUtils.setTaskList(taskList);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "No input json found", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    public FileOutputStream getFileOutputStream() throws FileNotFoundException {
+        FileOutputStream fos = openFileOutput("tasksFile.txt", MODE_WORLD_WRITEABLE);
+        return fos;
+    }
+
+    public BufferedReader getFileReader()  {
+        BufferedReader input = null;
+        try {
+            input = new BufferedReader(
+                    new InputStreamReader(openFileInput("tasksFile.txt")));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        return input;
     }
 
     private void showMoveFragment(UUID parentUUID) {
