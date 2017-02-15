@@ -14,4 +14,8 @@
     <string name="level_up">Level Up</string>
     <string name="move_to_main_list">MOVE TO MAIN LIST</string>
     <string name="move_to_this_list">MOVE TO THIS LIST</string>
+    <string name="sort_order">Sort order</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="lists_first">Lists first</string>
 </resources>

@@ -29,6 +29,7 @@ import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.activity.SettingsActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.fragment.MoveFragment;
+import com.example.aneesh.simpletodo.fragment.SortFragment;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.io.BufferedReader;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity  {
                         shareIntent(tasks);
                         return true;
                     case R.id.menu_sort:
-                        Toast.makeText(MainActivity.this, "Sort", Toast.LENGTH_SHORT).show();
+                        showSort();
                         return true;
                     case R.id.menu_add_multiple:
                         Toast.makeText(MainActivity.this, "Add Multiple", Toast.LENGTH_SHORT).show();
@@ -180,6 +181,18 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+    }
+
+    private void showSort() {
+//        new MaterialDialog.Builder(this)
+//                .title(R.string.sort_order)
+//                .items(R.array.sort_items)
+//                .positiveText(R.string.ok)
+//                .negativeText(R.string.cancel)
+//                .show();
+
+        SortFragment sortFragment = SortFragment.newInstance();
+        sortFragment.show(getSupportFragmentManager(), "Sort");
     }
 
     public void writeJsonFile() {

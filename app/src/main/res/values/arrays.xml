@@ -10,11 +10,24 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_auto">Automatic (dark at night)</string>
+    <string name="manual">Manual</string>
+    <string name="alphabetical">Alphabetical</string>
+    <string name="newest_first">Newest First</string>
+    <string name="newest_last">Newest last</string>
 
     <string-array
         name="pref_theme_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array
+        name="sort_items">
+        <item>@string/manual</item>
+        <item>@string/alphabetical</item>
+        <item>@string/newest_first</item>
+        <item>@string/newest_last</item>
+
     </string-array>
 </resources>
