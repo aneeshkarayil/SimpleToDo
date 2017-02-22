@@ -184,13 +184,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void showSort() {
-//        new MaterialDialog.Builder(this)
-//                .title(R.string.sort_order)
-//                .items(R.array.sort_items)
-//                .positiveText(R.string.ok)
-//                .negativeText(R.string.cancel)
-//                .show();
-
         SortFragment sortFragment = SortFragment.newInstance();
         sortFragment.show(getSupportFragmentManager(), "Sort");
     }
