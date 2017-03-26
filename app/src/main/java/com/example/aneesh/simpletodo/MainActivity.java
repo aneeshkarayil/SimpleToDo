@@ -30,6 +30,7 @@ import com.example.aneesh.simpletodo.activity.SettingsActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
 import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.fragment.SortFragment;
+import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.io.BufferedReader;
@@ -41,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.aneesh.simpletodo.Utils.TaskUtils.taskList;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         //writeJsonFile();
         initiateTaskList();
+        //initiateSortSetting();
         if (getFileReader() == null)
         {
             writeJsonFile();
@@ -183,6 +187,20 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    private void initiateSortSetting() {
+        if (getSettingFileReader() != null)
+        {
+            try {
+                String json = TaskUtils.readJSONFromFile(getSettingFileReader());
+                SortSetting sortSetting = SortSetting.convertFromJSON(json);
+                Toast.makeText(this, "Read from sort setting json file: " + SortSetting.getInstance().getSortSetting(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "No input json found", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void showSort() {
         SortFragment sortFragment = SortFragment.newInstance();
         sortFragment.show(getSupportFragmentManager(), "Sort");
@@ -199,7 +217,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void initiateTaskList() {
-        if (TaskUtils.taskList == null && getFileReader() != null)
+        if (taskList == null && getFileReader() != null)
         {
             try {
                 String json = TaskUtils.readJSONFromFile(getFileReader());
@@ -224,6 +242,17 @@ public class MainActivity extends AppCompatActivity  {
         try {
             input = new BufferedReader(
                     new InputStreamReader(openFileInput("tasksFile.txt")));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        return input;
+    }
+
+    public BufferedReader getSettingFileReader()  {
+        BufferedReader input = null;
+        try {
+            input = new BufferedReader(
+                    new InputStreamReader(openFileInput("sortSetting.txt")));
         } catch (FileNotFoundException e) {
             return null;
         }
