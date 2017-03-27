@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         //writeJsonFile();
         initiateTaskList();
-        //initiateSortSetting();
+        initiateSortSetting();
         if (getFileReader() == null)
         {
             writeJsonFile();
