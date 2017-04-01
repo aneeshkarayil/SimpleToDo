@@ -1,5 +1,6 @@
 package com.example.aneesh.simpletodo.Utils;
 
+import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,10 +13,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-
-import static android.os.ParcelFileDescriptor.MODE_WORLD_WRITEABLE;
 
 /**
  * Created by Aneesh on 1/8/2017.
@@ -165,5 +165,11 @@ public class TaskUtils {
         }
 
         return candidateTask;
+    }
+
+    public static Comparator<? super Task> getComparator() {
+
+        SortSetting instance = SortSetting.getInstance();
+        return instance.getComparator();
     }
 }

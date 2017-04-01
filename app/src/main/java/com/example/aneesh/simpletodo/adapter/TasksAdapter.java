@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     public TasksAdapter(Context context, List<Task> taskList)
     {
+        Collections.sort(taskList, SortSetting.getInstance().getComparator());
         this.context = context;
         this.taskList = taskList;
         this.taskListCopy = new ArrayList<Task>(taskList);
@@ -167,6 +170,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     {
         this.taskList.clear();
         this.taskList.addAll(newData);
+        Collections.sort(this.taskList, TaskUtils.getComparator());
         this.notifyDataSetChanged();
     }
 
