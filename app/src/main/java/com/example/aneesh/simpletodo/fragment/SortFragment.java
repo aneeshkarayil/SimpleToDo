@@ -96,6 +96,8 @@ public class SortFragment extends DialogFragment {
         this.okButton = (Button) v.findViewById(R.id.sort_ok);
         this.cancelButton = (Button) v.findViewById(R.id.sort_cancel);
 
+        setUpTheSelections();
+
         this.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +137,40 @@ public class SortFragment extends DialogFragment {
         });
 
         return v;
+    }
+
+    private void setUpTheSelections() {
+
+        SortSetting sortSetting = SortSetting.getInstance();
+        String sortSelection = sortSetting.getSortSetting();
+
+        switch (sortSelection)
+        {
+            case "Alphabetical":
+                this.alphabeticalRadioButton.setChecked(true);
+                break;
+            case "Manual":
+                this.manualRadioButton.setChecked(true);
+                break;
+            case "Newest First":
+                this.newestFirstRadioButton.setChecked(true);
+                break;
+            case "Newest Last":
+                this.newestLastRadioButton.setChecked(true);
+                break;
+            default:
+                break;
+        }
+
+        if (sortSetting.isListsFirst())
+        {
+            this.isListsFirstCheckBox.setChecked(true);
+        }
+        else
+        {
+            this.isListsFirstCheckBox.setChecked(false);
+        }
+
     }
 
 
