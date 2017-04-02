@@ -104,16 +104,12 @@ public class SortFragment extends DialogFragment {
 
                 if (alphabeticalRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Alphabetical");
-                    //Toast.makeText(getActivity(), "Alphabetical", Toast.LENGTH_SHORT).show();
                 } else if (manualRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Manual");
-                    //Toast.makeText(getActivity(), "Manual", Toast.LENGTH_SHORT).show();
                 } else if (newestFirstRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Newest First");
-                    //Toast.makeText(getActivity(), "Newest First", Toast.LENGTH_SHORT).show();
                 } else if (newestLastRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Newest Last");
-                    //Toast.makeText(getActivity(), "Newest Last", Toast.LENGTH_SHORT).show();
                 }
 
                 writeJsonFile(SortSetting.getInstance());
@@ -135,7 +131,7 @@ public class SortFragment extends DialogFragment {
     public void writeJsonFile(SortSetting sortSetting) {
         try {
             TaskUtils.writeJSONToFile(convertToJSON(sortSetting), getFileOutputStream());
-            Toast.makeText(this.getActivity(), "Written Json to file", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this.getActivity(), "Written Json to file", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this.getActivity(), "Error trying to write to file", Toast.LENGTH_SHORT).show();
