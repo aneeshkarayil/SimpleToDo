@@ -45,7 +45,7 @@ import java.util.UUID;
 
 import static com.example.aneesh.simpletodo.Utils.TaskUtils.taskList;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity  implements SortFragment.SortFragmentListener{
 
     public static final int EDIT_ACTIVITY_CODE = 100;
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 101;
@@ -623,4 +623,9 @@ public class MainActivity extends AppCompatActivity  {
         this.swapAdapterData(updatedTaskList, false);
     }
 
+    @Override
+    public void onSortItemSelected() {
+        List<Task> updatedTaskList = TaskUtils.generateTasks();
+        this.swapAdapterData(updatedTaskList, false);
+    }
 }

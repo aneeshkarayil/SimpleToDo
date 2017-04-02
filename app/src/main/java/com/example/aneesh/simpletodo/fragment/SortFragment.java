@@ -1,5 +1,6 @@
 package com.example.aneesh.simpletodo.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -42,6 +43,31 @@ public class SortFragment extends DialogFragment {
 
     }
 
+    private SortFragmentListener listener;
+
+    // Define the events that the fragment will use to communicate
+    public interface SortFragmentListener {
+        // This can be any number of events to be sent to the activity
+        public void onSortItemSelected();
+    }
+
+    // Store the listener (activity) that will have events fired once the fragment is attached
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SortFragmentListener) {
+            listener = (SortFragmentListener) context;
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement SortFragment.SortFragmentListener");
+        }
+    }
+
+    // Now we can fire the event when the user selects something in the fragment
+    public void onSomeClick(View v) {
+        listener.onSortItemSelected();
+    }
+
     public static SortFragment newInstance() {
         SortFragment frag = new SortFragment();
 //        Bundle args = new Bundle();
@@ -78,19 +104,20 @@ public class SortFragment extends DialogFragment {
 
                 if (alphabeticalRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Alphabetical");
-                    Toast.makeText(getActivity(), "Alphabetical", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Alphabetical", Toast.LENGTH_SHORT).show();
                 } else if (manualRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Manual");
-                    Toast.makeText(getActivity(), "Manual", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Manual", Toast.LENGTH_SHORT).show();
                 } else if (newestFirstRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Newest First");
-                    Toast.makeText(getActivity(), "Newest First", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Newest First", Toast.LENGTH_SHORT).show();
                 } else if (newestLastRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Newest Last");
-                    Toast.makeText(getActivity(), "Newest Last", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Newest Last", Toast.LENGTH_SHORT).show();
                 }
 
                 writeJsonFile(SortSetting.getInstance());
+                listener.onSortItemSelected();
                 SortFragment.this.dismiss();
             }
 
