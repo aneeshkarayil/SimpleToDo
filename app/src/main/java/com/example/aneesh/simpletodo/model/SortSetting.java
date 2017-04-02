@@ -1,7 +1,7 @@
 package com.example.aneesh.simpletodo.model;
 
-import com.example.aneesh.simpletodo.Utils.NewestFirstComparator;
 import com.example.aneesh.simpletodo.comparators.AlphabeticalComparator;
+import com.example.aneesh.simpletodo.comparators.NewestFirstComparator;
 import com.example.aneesh.simpletodo.comparators.NewestLastComparator;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -35,17 +35,17 @@ public class SortSetting {
         switch (sortSetting)
         {
             case "Alphabetical":
-                comparator = new AlphabeticalComparator();
+                comparator = new AlphabeticalComparator(isListsFirst);
                 break;
             case "Manual":
             case "Newest First":
-                comparator = new NewestFirstComparator();
+                comparator = new NewestFirstComparator(isListsFirst);
                 break;
             case "Newest Last":
-                comparator = new NewestLastComparator();
+                comparator = new NewestLastComparator(isListsFirst);
                 break;
             default:
-                comparator = new NewestFirstComparator();
+                comparator = new NewestFirstComparator(isListsFirst);
                 break;
 
         }
