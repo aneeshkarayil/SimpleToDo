@@ -197,6 +197,9 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getFileOutputStream("TaskFile.txt")));
             writer.write(formattedTasks);
             writer.close();
+
+            Toast.makeText(this, "File written to " + getFilesDir().getAbsolutePath()+"TaskFile.txt", Toast.LENGTH_SHORT).show();
+
         } catch (IOException e) {
             Toast.makeText(this, "Error writing the report file", Toast.LENGTH_SHORT).show();
         }
