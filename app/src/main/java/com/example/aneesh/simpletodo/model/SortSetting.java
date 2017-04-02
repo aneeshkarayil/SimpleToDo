@@ -15,6 +15,7 @@ import java.util.Comparator;
 public class SortSetting {
 
     private String sortSetting;
+    private boolean isListsFirst;
 
     private static SortSetting sortSettingInstance;
 
@@ -69,7 +70,17 @@ public class SortSetting {
     {
         Gson gson = new Gson();
         String sortSetting = new Gson().fromJson(json, JsonObject.class).get("sortSetting").getAsString();
+        boolean listsFirst = new Gson().fromJson(json, JsonObject.class).get("isListsFirst").getAsBoolean();
         getInstance().setSortSetting(sortSetting);
+        getInstance().setListsFirst(listsFirst);
         return getInstance();
+    }
+
+    public boolean isListsFirst() {
+        return isListsFirst;
+    }
+
+    public void setListsFirst(boolean listsFirst) {
+        isListsFirst = listsFirst;
     }
 }

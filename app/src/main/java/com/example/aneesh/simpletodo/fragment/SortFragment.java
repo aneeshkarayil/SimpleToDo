@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class SortFragment extends DialogFragment {
     RadioButton manualRadioButton;
     RadioButton newestFirstRadioButton;
     RadioButton newestLastRadioButton;
+
+    CheckBox isListsFirstCheckBox;
 
     Button okButton;
     Button cancelButton;
@@ -88,6 +91,8 @@ public class SortFragment extends DialogFragment {
         this.newestFirstRadioButton = (RadioButton) v.findViewById(R.id.sort_newest_first);
         this.newestLastRadioButton = (RadioButton) v.findViewById(R.id.sort_newest_last);
 
+        this.isListsFirstCheckBox = (CheckBox)v.findViewById(R.id.sort_lists_first);
+
         this.okButton = (Button) v.findViewById(R.id.sort_ok);
         this.cancelButton = (Button) v.findViewById(R.id.sort_cancel);
 
@@ -111,6 +116,16 @@ public class SortFragment extends DialogFragment {
                 } else if (newestLastRadioButton.isChecked()) {
                     SortSetting.getInstance().setSortSetting("Newest Last");
                 }
+
+                if (isListsFirstCheckBox.isChecked())
+                {
+                    SortSetting.getInstance().setListsFirst(true);
+                }
+                else
+                {
+                    SortSetting.getInstance().setListsFirst(false);
+                }
+
 
                 writeJsonFile(SortSetting.getInstance());
                 listener.onSortItemSelected();
