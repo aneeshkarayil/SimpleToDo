@@ -34,15 +34,18 @@ import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.aneesh.simpletodo.Utils.TaskShareFormatter.getFormattedTask;
 import static com.example.aneesh.simpletodo.Utils.TaskUtils.taskList;
 
 public class MainActivity extends AppCompatActivity  implements SortFragment.SortFragmentListener{
@@ -136,7 +139,8 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
                         Toast.makeText(MainActivity.this, "Add Multiple", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_export:
-                        Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
+                        formatAndExportFile();
                         return true;
                     case R.id.menu_feedback:
                         sendEmail();
@@ -186,6 +190,19 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
 
     }
 
+    private void formatAndExportFile() {
+        String formattedTasks = TaskShareFormatter.getFormattedTask(TaskUtils.generateTasks());
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getFileOutputStream("TaskFile.txt")));
+            writer.write(formattedTasks);
+            writer.close();
+        } catch (IOException e) {
+            Toast.makeText(this, "Error writing the report file", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private void initiateSortSetting() {
         if (getSettingFileReader() != null)
         {
@@ -207,7 +224,7 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
 
     public void writeJsonFile() {
         try {
-            TaskUtils.writeJSONToFile(TaskUtils.convertToJSON(TaskUtils.generateTasks()),getFileOutputStream());
+            TaskUtils.writeJSONToFile(TaskUtils.convertToJSON(TaskUtils.generateTasks()),getFileOutputStream("tasksFile.txt"));
             //Toast.makeText(this, "Written Json to file", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -231,8 +248,8 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
     }
 
 
-    public FileOutputStream getFileOutputStream() throws FileNotFoundException {
-        FileOutputStream fos = openFileOutput("tasksFile.txt", MODE_WORLD_WRITEABLE);
+    public FileOutputStream getFileOutputStream(String fileName) throws FileNotFoundException {
+        FileOutputStream fos = openFileOutput(fileName, MODE_WORLD_WRITEABLE);
         return fos;
     }
 
@@ -347,7 +364,7 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
     private void shareIntent(List<Task> tasks) {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, TaskShareFormatter.getFormattedTask(tasks));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getFormattedTask(tasks));
         try {
             startActivity(shareIntent);
         } catch (android.content.ActivityNotFoundException ex) {
