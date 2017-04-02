@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity  {
             try {
                 String json = TaskUtils.readJSONFromFile(getSettingFileReader());
                 SortSetting sortSetting = SortSetting.convertFromJSON(json);
-                Toast.makeText(this, "Read from sort setting json file: " + SortSetting.getInstance().getSortSetting(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Read from sort setting json file: " + SortSetting.getInstance().getSortSetting(), Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "No input json found", Toast.LENGTH_SHORT).show();
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity  {
     public void writeJsonFile() {
         try {
             TaskUtils.writeJSONToFile(TaskUtils.convertToJSON(TaskUtils.generateTasks()),getFileOutputStream());
-            Toast.makeText(this, "Written Json to file", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Written Json to file", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error trying to write to file", Toast.LENGTH_SHORT).show();
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity  {
             try {
                 String json = TaskUtils.readJSONFromFile(getFileReader());
                 List<Task> taskList = TaskUtils.convertFromJSON(json);
-                Toast.makeText(this, "Read from json file", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Read from json file", Toast.LENGTH_SHORT).show();
                 TaskUtils.setTaskList(taskList);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -610,6 +610,7 @@ public class MainActivity extends AppCompatActivity  {
         List<Task> updatedTaskList = TaskUtils.generateTasks();
         this.swapAdapterData(updatedTaskList, false);
     }
+
 
 
     @Override
