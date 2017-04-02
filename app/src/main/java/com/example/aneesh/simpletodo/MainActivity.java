@@ -162,16 +162,19 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Adding " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Adding " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
 
-                Task newTask = new Task(editText.getText().toString(), parentUUID);
-                List<Task> newTaskList = new ArrayList<Task>(TaskUtils.generateTasks());
-                newTaskList.add(newTask);
-                TaskUtils.generateTasks().add(newTask);
+                if (editText.getText().toString().length() > 0)
+                {
+                    Task newTask = new Task(editText.getText().toString(), parentUUID);
+                    List<Task> newTaskList = new ArrayList<Task>(TaskUtils.generateTasks());
+                    newTaskList.add(newTask);
+                    TaskUtils.generateTasks().add(newTask);
 
-                swapAdapterData(newTaskList, true);
+                    swapAdapterData(newTaskList, true);
 
-                editText.setText("");
+                    editText.setText("");
+                }
             }
         });
 
