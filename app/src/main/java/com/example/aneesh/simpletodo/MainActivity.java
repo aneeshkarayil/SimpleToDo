@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
                         showCheckAllPopUpMenu(bottomToolbar);
                         return true;
                     case R.id.menu_move:
-                        //Toast.makeText(MainActivity.this, "Move", Toast.LENGTH_SHORT).show();
-
                         showMoveFragment(parentUUID);
                         return true;
                     case R.id.menu_delete:
@@ -141,11 +139,9 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
                         Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_feedback:
-                        //Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
                         sendEmail();
                         return true;
                     case R.id.menu_settings:
-                        //Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
                         showSettingsScreen();
                         return true;
                 }
