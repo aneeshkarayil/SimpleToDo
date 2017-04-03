@@ -18,4 +18,7 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="lists_first">Lists first</string>
+    <string name="add_multiple_hint">"Type or paste your list here\nEach new line creates a new item"</string>
+    <string name="add_to_main_list">Add to Main List</string>
+    <string name="add_multiple_title">Add Multiple</string>
 </resources>

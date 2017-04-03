@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.Utils.TaskShareFormatter;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.activity.AddMultipleActivity;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.activity.SettingsActivity;
 import com.example.aneesh.simpletodo.adapter.TasksAdapter;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
     public static final int EDIT_ACTIVITY_CODE = 100;
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 101;
     public static final int SETTING_ACTIVITY_REQUEST_CODE = 102;
+    public static final int ADD_MULTIPLE_ACTIVITY_REQUEST_CODE = 103;
     public static final String EDIT_TASK_UUID = "com.aadhyaapps.anothertodo.MainActivity.EDIT_TASK_UUID";
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
     public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
@@ -136,7 +138,8 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
                         showSort();
                         return true;
                     case R.id.menu_add_multiple:
-                        Toast.makeText(MainActivity.this, "Add Multiple", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Add Multiple", Toast.LENGTH_SHORT).show();
+                        showAddItemActivity();
                         return true;
                     case R.id.menu_export:
                         //Toast.makeText(MainActivity.this, "Export", Toast.LENGTH_SHORT).show();
@@ -188,6 +191,11 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
             }
         });
 
+    }
+
+    private void showAddItemActivity() {
+        Intent intent = new Intent(MainActivity.this, AddMultipleActivity.class);
+        startActivityForResult(intent, ADD_MULTIPLE_ACTIVITY_REQUEST_CODE);
     }
 
     private void formatAndExportFile() {
