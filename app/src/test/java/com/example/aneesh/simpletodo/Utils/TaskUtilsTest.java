@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Aneesh on 1/8/2017.
  */
@@ -73,6 +71,19 @@ public class TaskUtilsTest {
 
         Assert.assertEquals( 2, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
         Assert.assertEquals( 2, TaskUtils.getChildTasks(taskList, t1.getTaskId()).size());
+    }
+
+    @Test
+    public void getListFromString() throws Exception
+    {
+        String s = "Hello World\n"+
+                "  Check 1\n"+
+                "  Check 2\n"+
+                "     Check 2.1\n" +
+                "  Check 3";
+
+        TaskUtils.convertMultipleToListItems(s);
+
     }
 
 }

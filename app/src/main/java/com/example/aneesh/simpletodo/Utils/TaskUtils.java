@@ -14,7 +14,11 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -171,5 +175,53 @@ public class TaskUtils {
 
         SortSetting instance = SortSetting.getInstance();
         return instance.getComparator();
+    }
+
+    public static List<Task> convertMultipleToListItems(String s)
+    {
+        List<Task> tasks = new ArrayList<>();
+        Map<Integer, Task> map = new LinkedHashMap<>();
+        String[] items = s.split("\n");
+
+        for (String item: items)
+        {
+            int count = item.indexOf(item.trim());
+            UUID parentId = getParentAndUpdateWorkingMap(map, count);
+            Task task =  new Task(item.trim(), parentId);
+            map.put(count, task);
+            tasks.add(task);
+
+        }
+        return tasks;
+    }
+
+    private static UUID getParentAndUpdateWorkingMap(Map<Integer, Task> map, int count)
+    {
+        if (count == 0)
+        {
+            return null;
+        }
+        Set<Integer> mapKeys = map.keySet();
+
+        //Iterator<Integer> iterator = map.iterator();
+        Iterator<Map.Entry<Integer, Task>> iterator = map.entrySet().iterator();
+        int maxIdOfParent = 0;
+        while(iterator.hasNext())
+        {
+            Map.Entry<Integer, Task> entry = iterator.next();
+
+            if (entry.getKey() >= count)
+            {
+                iterator.remove();
+            }
+            else if (entry.getKey() > maxIdOfParent)
+            {
+                maxIdOfParent = entry.getKey();
+            }
+
+        }
+
+        return map.get(maxIdOfParent).getTaskId();
+
     }
 }
