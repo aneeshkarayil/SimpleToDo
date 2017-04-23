@@ -28,6 +28,7 @@
 
     <Button
         android:text="@string/add_to_main_list"
+        android:id="@+id/add_to_main_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
