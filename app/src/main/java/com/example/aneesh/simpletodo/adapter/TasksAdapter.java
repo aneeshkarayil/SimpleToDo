@@ -179,7 +179,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         return this.taskList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
         public Button mItemButton;
         public CheckBox mItemCheckbox;
@@ -193,6 +193,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             mItemTextView = (TextView)itemView.findViewById(R.id.item_description);
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -204,6 +205,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 intent.putExtra(MainActivity.PARENT_UUID, task.getTaskId());
                 ((Activity)context).startActivity(intent);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Toast.makeText(context, "Long pressed", Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 }
