@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/long_press_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/copy_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copy_item_text_text"/>
+
+    <TextView
+        android:id="@+id/share_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_item_text_text"/>
+
+    <TextView
+        android:id="@+id/move_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/move_item_text"/>
+
+    <TextView
+        android:id="@+id/edit_item_long_press"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_item_two_taps"/>
+
+    <TextView
+        android:id="@+id/delete_this_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_this_item_text_text"/>
+
+
+</LinearLayout>

@@ -21,4 +21,9 @@
     <string name="add_multiple_hint">"Type or paste your list here\nEach new line creates a new item"</string>
     <string name="add_to_main_list">Add to Main List</string>
     <string name="add_multiple_title">Add Multiple</string>
+    <string name="copy_item_text_text">Copy item text</string>
+    <string name="share_item_text_text">Share item</string>
+    <string name="move_item_text">Move</string>
+    <string name="edit_item_two_taps">Edit (2 taps)</string>
+    <string name="delete_this_item_text_text">Delete this item</string>
 </resources>
