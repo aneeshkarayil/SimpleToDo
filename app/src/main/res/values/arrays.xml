@@ -30,4 +30,10 @@
         <item>@string/newest_last</item>
 
     </string-array>
+    <string-array name="long_click_items">
+        va<item>@string/manual</item>
+        <item>@string/alphabetical</item>
+        <item>@string/newest_first</item>
+        <item>@string/newest_last</item>
+    </string-array>
 </resources>

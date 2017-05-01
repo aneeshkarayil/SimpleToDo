@@ -3,7 +3,6 @@ package com.example.aneesh.simpletodo.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
-import com.example.aneesh.simpletodo.fragment.LongPressFragment;
 import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -209,14 +208,22 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
         }
 
-        private void showLongPressedFragment() {
-            LongPressFragment longPressFragment = LongPressFragment.newInstance();
-            longPressFragment.show(((FragmentActivity)context).getSupportFragmentManager(), "Long");
+        private void showLongPressedDialog() {
+            new MaterialDialog.Builder(context)
+                    .title(R.string.app_name)
+                    .items(R.array.long_click_items)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            Toast.makeText(context, "Showing "+which, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
         }
 
         @Override
         public boolean onLongClick(View v) {
-            showLongPressedFragment();
+            showLongPressedDialog();
             return true;
         }
     }
