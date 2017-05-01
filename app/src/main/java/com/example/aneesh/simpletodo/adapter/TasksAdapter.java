@@ -1,6 +1,8 @@
 package com.example.aneesh.simpletodo.adapter;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -208,13 +210,27 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
         }
 
-        private void showLongPressedDialog() {
+        private void showLongPressedDialog(final Task task) {
             new MaterialDialog.Builder(context)
-                    .title(R.string.app_name)
+                    .title(task.getDescription())
                     .items(R.array.long_click_items)
                     .itemsCallback(new MaterialDialog.ListCallback() {
                         @Override
                         public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                            switch (which)
+                            {
+                                case 0:
+                                    ClipboardManager clipboard = (ClipboardManager)
+                                            context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("simple text",task.getDescription());
+                                    clipboard.setPrimaryClip(clip);
+                                    Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                        break;
+                            }
+
                             Toast.makeText(context, "Showing "+which, Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -223,7 +239,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         @Override
         public boolean onLongClick(View v) {
-            showLongPressedDialog();
+            int position = getAdapterPosition(); // gets item position
+            if (position != RecyclerView.NO_POSITION) {
+                Task task = taskList.get(position);
+                showLongPressedDialog(task);
+            }
+
             return true;
         }
     }

@@ -31,9 +31,10 @@
 
     </string-array>
     <string-array name="long_click_items">
-        va<item>@string/manual</item>
-        <item>@string/alphabetical</item>
-        <item>@string/newest_first</item>
-        <item>@string/newest_last</item>
+        va<item>@string/copy_item_text_text</item>
+        <item>@string/share_item_text_text</item>
+        <item>@string/move</item>
+        <item>@string/edit_item_two_taps</item>
+        <item>@string/delete_this_item_text_text</item>
     </string-array>
 </resources>
