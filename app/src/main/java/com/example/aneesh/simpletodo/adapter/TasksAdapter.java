@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.aneesh.simpletodo.Utils.TaskShareFormatter.getFormattedTask;
+
 /**
  * Created by Aneesh on 1/10/2017.
  */
@@ -210,6 +212,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
         }
 
+        private void shareIntent(List<Task> tasks) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getFormattedTask(tasks));
+            try {
+                context.startActivity(shareIntent);
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(context, "No apps have not been installed to share", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         private void showLongPressedDialog(final Task task) {
             new MaterialDialog.Builder(context)
                     .title(task.getDescription())
@@ -227,6 +240,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     clipboard.setPrimaryClip(clip);
                                     Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
                                     break;
+                                case 1:
+                                    List<Task> sharedTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+                                    sharedTasks.add(task);
+                                    shareIntent(sharedTasks);
+                                    break;
+
                                 default:
                                         break;
                             }
