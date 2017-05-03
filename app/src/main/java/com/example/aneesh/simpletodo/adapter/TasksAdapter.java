@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
+import com.example.aneesh.simpletodo.activity.EditItemActivity;
 import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.aneesh.simpletodo.MainActivity.EDIT_ACTIVITY_CODE;
 import static com.example.aneesh.simpletodo.Utils.TaskShareFormatter.getFormattedTask;
 
 /**
@@ -244,6 +246,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     List<Task> sharedTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
                                     sharedTasks.add(task);
                                     shareIntent(sharedTasks);
+                                    break;
+                                case 3:
+                                    //Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
+                                    Intent intent = new Intent(context, EditItemActivity.class);
+                                    intent.putExtra(MainActivity.TASK_DESCRIPTION, task.getDescription());
+                                    intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
+                                    ((Activity)context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
                                     break;
 
                                 default:
