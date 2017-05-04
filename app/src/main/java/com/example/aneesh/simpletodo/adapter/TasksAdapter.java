@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
@@ -25,6 +27,7 @@ import com.example.aneesh.simpletodo.model.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.example.aneesh.simpletodo.MainActivity.EDIT_ACTIVITY_CODE;
@@ -254,6 +257,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
                                     ((Activity)context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
                                     break;
+                                case 4:
+                                    List<Task> toDeleteItems = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+                                    toDeleteItems.add(task);
+                                    deleteItems(toDeleteItems, task);
+                                    break;
 
                                 default:
                                         break;
@@ -275,5 +283,61 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
             return true;
         }
+    }
+
+    private void deleteItems(final List<Task> toDeleteItems, Task task) {
+        if (toDeleteItems.size() == 1)
+        {
+            new MaterialDialog.Builder(context)
+                    .title(R.string.delete_dialog_title)
+                    .content("Are you sure you want to delete "+ task.getDescription()+" checked items?")
+                    .positiveText(R.string.agree)
+                    .negativeText(R.string.disagree)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            deleteFromList(toDeleteItems);
+                        }
+                    })
+                    .show();
+        }
+        else
+        {
+            new MaterialDialog.Builder(context)
+                    .title(R.string.delete_dialog_title)
+                    .content("Are you sure you want to delete "+ task.getDescription()+" checked items and " + (toDeleteItems.size() - 1)+" sub-items?")
+                    .positiveText(R.string.agree)
+                    .negativeText(R.string.disagree)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            deleteFromList(toDeleteItems);
+                        }
+                    })
+                    .show();
+        }
+
+    }
+
+    private void deleteFromList(List<Task> toDeleteItems) {
+
+        List<Task> newTaskList = TaskUtils.generateTasks();
+
+        Iterator<Task> iterator = newTaskList.iterator();
+        while (iterator.hasNext())
+        {
+            Task task = iterator.next();
+            if (toDeleteItems.contains(task))
+            {
+                iterator.remove();
+            }
+        }
+
+        notifyDataSetChanged();
+
+        ((MainActivity)context).swapAdapterData(newTaskList, true);
+
+        Toast.makeText(context , "Deleted "+ toDeleteItems.size() + " items " , Toast.LENGTH_SHORT).show();
+
     }
 }

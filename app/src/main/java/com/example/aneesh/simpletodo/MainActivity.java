@@ -584,7 +584,7 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
 
     }
 
-    private void swapAdapterData(List<Task> newTaskList, boolean dataChanged) {
+    public void swapAdapterData(List<Task> newTaskList, boolean dataChanged) {
         if (parentUUID == null) {
             taskAdapter.swapData(TaskUtils.getParentTasks(newTaskList));
         } else {
