@@ -278,12 +278,68 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                     .show();
         }
 
+        private void showLongPressedDialogForList(final Task task) {
+            new MaterialDialog.Builder(context)
+                    .title(task.getDescription())
+                    .items(R.array.long_click_items_list)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                            switch (which)
+                            {
+                                case 0:
+                                    ClipboardManager clipboard = (ClipboardManager)
+                                            context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("simple text",task.getDescription());
+                                    clipboard.setPrimaryClip(clip);
+                                    Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 2:
+                                    List<Task> sharedTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+                                    sharedTasks.add(task);
+                                    shareIntent(sharedTasks);
+                                    break;
+                                case 3:
+                                    showMoveFragment(task.getParentTaskId(), task);
+                                    break;
+                                case 4:
+                                    Intent intent = new Intent(context, EditItemActivity.class);
+                                    intent.putExtra(MainActivity.TASK_DESCRIPTION, task.getDescription());
+                                    intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
+                                    ((Activity)context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
+                                    break;
+                                case 5:
+                                    List<Task> toDeleteItems = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+                                    toDeleteItems.add(task);
+                                    deleteItems(toDeleteItems, task);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                            Toast.makeText(context, "Showing "+which, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
+        }
+
+
         @Override
         public boolean onLongClick(View v) {
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) {
                 Task task = taskList.get(position);
-                showLongPressedDialog(task);
+                if (TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId()).size() == 0)
+                {
+                    showLongPressedDialog(task);
+                }
+                else
+                {
+                    showLongPressedDialogForList(task);
+                }
+
             }
 
             return true;

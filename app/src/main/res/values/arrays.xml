@@ -14,6 +14,9 @@
     <string name="alphabetical">Alphabetical</string>
     <string name="newest_first">Newest First</string>
     <string name="newest_last">Newest last</string>
+    <string name="delete_this_item_list_text">Delete this list</string>
+    <string name="copy_item_list_text">Copy list as text</string>
+    <string name="share_list_text_text">Share list</string>
 
     <string-array
         name="pref_theme_values">
@@ -37,4 +40,14 @@
         <item>@string/edit_item_two_taps</item>
         <item>@string/delete_this_item_text_text</item>
     </string-array>
+
+    <string-array name="long_click_items_list">
+        va<item>@string/copy_item_text_text</item>
+        va<item>@string/copy_item_list_text</item>
+        <item>@string/share_list_text_text</item>
+        <item>@string/move</item>
+        <item>@string/edit_item_two_taps</item>
+        <item>@string/delete_this_item_list_text</item>
+    </string-array>
+
 </resources>
