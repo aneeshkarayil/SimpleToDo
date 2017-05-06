@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
+import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
 
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.aneesh.simpletodo.MainActivity.EDIT_ACTIVITY_CODE;
 import static com.example.aneesh.simpletodo.Utils.TaskShareFormatter.getFormattedTask;
@@ -250,8 +253,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     sharedTasks.add(task);
                                     shareIntent(sharedTasks);
                                     break;
+                                case 2:
+                                    showMoveFragment(task.getParentTaskId(), task);
+                                    break;
                                 case 3:
-                                    //Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
                                     Intent intent = new Intent(context, EditItemActivity.class);
                                     intent.putExtra(MainActivity.TASK_DESCRIPTION, task.getDescription());
                                     intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
@@ -316,6 +321,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                     })
                     .show();
         }
+
+    }
+
+    private void showMoveFragment(UUID parentUUID, Task taskToMove) {
+
+        List<UUID> taskUUIDs = new ArrayList<>();
+        taskUUIDs.add(taskToMove.getTaskId());
+        FragmentManager fm = ((MainActivity)context).getSupportFragmentManager();
+        MoveFragment moveFragment = MoveFragment.newInstance(parentUUID, taskUUIDs);
+        moveFragment.show(fm, "fragment_edit_name");
 
     }
 
