@@ -295,6 +295,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     clipboard.setPrimaryClip(clip);
                                     Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
                                     break;
+                                case 1:
+                                    ClipboardManager formatClipboard = (ClipboardManager)
+                                            context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    List<Task> tasks = new ArrayList<Task>();
+                                    tasks.add(task);
+                                    ClipData formatClip = ClipData.newPlainText("simple text",getFormattedTask(tasks));
+                                    formatClipboard.setPrimaryClip(formatClip);
+                                    Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
+                                    break;
                                 case 2:
                                     List<Task> sharedTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
                                     sharedTasks.add(task);
