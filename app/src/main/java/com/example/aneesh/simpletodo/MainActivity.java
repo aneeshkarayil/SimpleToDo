@@ -1,6 +1,9 @@
 package com.example.aneesh.simpletodo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -119,7 +122,8 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final Toolbar bottomToolbar = (Toolbar) findViewById(R.id.bottomBar);
-        bottomToolbar.inflateMenu(R.menu.menu_bottom);
+        setUpBottomToolbarMenu(bottomToolbar);
+
         bottomToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -194,6 +198,19 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
             }
         });
 
+    }
+
+    private void setUpBottomToolbarMenu(Toolbar bottomToolbar) {
+        bottomToolbar.inflateMenu(R.menu.menu_bottom);
+        Menu bottomToolbarMenu = bottomToolbar.getMenu();
+
+        for(int i = 0; i < bottomToolbarMenu.size(); i++){
+            Drawable drawable = bottomToolbarMenu.getItem(i).getIcon();
+            if(drawable != null) {
+                drawable.mutate();
+                drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            }
+        }
     }
 
     private void showAddItemActivity() {
