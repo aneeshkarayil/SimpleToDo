@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
         if (getIntent().getSerializableExtra(MainActivity.PARENT_UUID) != null) {
             this.parentUUID = (UUID) getIntent().getSerializableExtra(MainActivity.PARENT_UUID);
             tasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentUUID);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } else {
             tasks = TaskUtils.getParentTasks(TaskUtils.generateTasks());
             this.parentUUID = null;
@@ -395,6 +396,22 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
         setUpCheckAllPopupMenu(popup);
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                startActivityAfterCleanup(MainActivity.class);
+                return true;
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
+
+    private void startActivityAfterCleanup(Class<?> cls) {
+        Intent intent = new Intent(getApplicationContext(), cls);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void setUpCheckAllPopupMenu(PopupMenu popup) {
