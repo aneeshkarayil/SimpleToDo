@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.aneesh.simpletodo.R.id.toolbar;
 import static com.example.aneesh.simpletodo.Utils.TaskShareFormatter.getFormattedTask;
 import static com.example.aneesh.simpletodo.Utils.TaskUtils.taskList;
 
@@ -78,13 +79,14 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
 
 
 
-        Toolbar appBar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar appBar = (Toolbar) findViewById(toolbar);
         setSupportActionBar(appBar);
 
         if (getIntent().getSerializableExtra(MainActivity.PARENT_UUID) != null) {
             this.parentUUID = (UUID) getIntent().getSerializableExtra(MainActivity.PARENT_UUID);
             tasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), parentUUID);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_black);
         } else {
             tasks = TaskUtils.getParentTasks(TaskUtils.generateTasks());
             this.parentUUID = null;
