@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:layout_weight="1"
-            android:hint="Add subitem..."
+            android:hint=" Add subitem..."
             android:id="@+id/add_item_text"/>
 
         <ImageView
