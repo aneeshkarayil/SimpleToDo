@@ -24,9 +24,13 @@
 
     <TextView
         android:id="@+id/parent_text"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="75dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
