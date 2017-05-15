@@ -26,6 +26,7 @@
         android:id="@+id/parent_text"
         android:padding="5dp"
         android:textColor="@android:color/black"
+        android:background="#F5F5F5"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:layout_below="@id/toolbar"
