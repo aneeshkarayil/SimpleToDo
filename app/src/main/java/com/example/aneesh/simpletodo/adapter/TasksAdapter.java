@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,7 +88,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         final Task task = taskList.get(position);
 
-        TextView textView = holder.mItemTextView;
+        final TextView textView = holder.mItemTextView;
         Button progressButton = holder.mItemButton;
         CheckBox checkBox = holder.mItemCheckbox;
 
@@ -98,6 +99,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                                     {
                                                         task.setDone(true);
                                                         boolean allSubTaskDone = checkAllSubTasksDone();
+                                                        textView.setTextColor(Color.GRAY);
 
                                                         if (allSubTaskDone) {
 
@@ -116,6 +118,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                                     else
                                                     {
                                                         task.setDone(false);
+                                                        textView.setTextColor(Color.BLACK);
                                                         Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
                                                         if (parentTask != null && parentTask.isDone())
                                                         {
