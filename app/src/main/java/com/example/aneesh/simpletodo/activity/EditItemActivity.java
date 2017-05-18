@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
-import com.example.aneesh.simpletodo.Utils.TaskUtils;
 
 import java.util.UUID;
 
@@ -31,7 +31,9 @@ public class EditItemActivity  extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.edit_item_toolbar);
         toolbar.setTitle(R.string.edit_text);
-        toolbar.setLogo(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
 
         if (getIntent().getSerializableExtra(MainActivity.TASK_DESCRIPTION) != null)
         {
@@ -40,6 +42,16 @@ public class EditItemActivity  extends AppCompatActivity {
             this.taskUUID = (UUID) getIntent().getSerializableExtra(MainActivity.EDIT_TASK_UUID);
             editText.setText(taskDescription);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+        }
+        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override
