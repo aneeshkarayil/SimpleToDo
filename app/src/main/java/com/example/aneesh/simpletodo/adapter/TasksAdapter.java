@@ -24,6 +24,7 @@ import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
+import com.example.aneesh.simpletodo.activity.ProgressBarActivity;
 import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
@@ -47,8 +48,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private Context context;
     private List<Task> taskListCopy;
 
-    public TasksAdapter(Context context, List<Task> taskList)
-    {
+    public TasksAdapter(Context context, List<Task> taskList) {
         Collections.sort(taskList, SortSetting.getInstance().getComparator());
         this.context = context;
         this.taskList = taskList;
@@ -69,13 +69,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     public void filter(String text) {
         taskList.clear();
-        if(text.isEmpty()){
+        if (text.isEmpty()) {
             taskList.addAll(taskListCopy);
-        } else{
+        } else {
             text = text.toLowerCase();
-            for(Task item: taskListCopy){
-                if(item.getDescription().toLowerCase().contains(text))
-                {
+            for (Task item : taskListCopy) {
+                if (item.getDescription().toLowerCase().contains(text)) {
                     taskList.add(item);
                 }
             }
@@ -95,8 +94,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                 @Override
                                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                    if (isChecked)
-                                                    {
+                                                    if (isChecked) {
                                                         task.setDone(true);
                                                         boolean allSubTaskDone = checkAllSubTasksDone();
                                                         textView.setTextColor(Color.GRAY);
@@ -104,8 +102,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                                         if (allSubTaskDone) {
 
                                                             Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
-                                                            if (parentTask != null)
-                                                            {
+                                                            if (parentTask != null) {
                                                                 Toast.makeText(context, "All sub-tasks done - marking parent task as done", Toast.LENGTH_SHORT).show();
                                                                 parentTask.setDone(true);
                                                             }
@@ -114,14 +111,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
                                                         writeJSONToFile();
 
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         task.setDone(false);
                                                         textView.setTextColor(Color.BLACK);
                                                         Task parentTask = TaskUtils.getTaskForUUID(task.getParentTaskId());
-                                                        if (parentTask != null && parentTask.isDone())
-                                                        {
+                                                        if (parentTask != null && parentTask.isDone()) {
                                                             Toast.makeText(context, "marking parent task as not done", Toast.LENGTH_SHORT).show();
                                                             parentTask.setDone(false);
                                                         }
@@ -132,34 +126,40 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                             }
         );
 
+        progressButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startProgressBarActivity();
+            }
+
+            private void startProgressBarActivity() {
+                Intent intent = new Intent(context, ProgressBarActivity.class);
+                ((Activity) context).startActivity(intent);
+            }
+        });
+
         textView.setText(task.getDescription());
 
         //get the children for the current task
         List<Task> childTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
 
-        if (childTasks.size() == 0)
-        {
+        if (childTasks.size() == 0) {
             progressButton.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             progressButton.setVisibility(View.VISIBLE);
-            progressButton.setText(childTasks.size()+"");
+            progressButton.setText(childTasks.size() + "");
         }
 
-        if (task.isDone())
-        {
+        if (task.isDone()) {
             checkBox.setChecked(true);
-        }
-        else
-        {
+        } else {
             checkBox.setChecked(false);
         }
     }
 
     private void writeJSONToFile() {
-        if (context instanceof MainActivity)
-        {
+        if (context instanceof MainActivity) {
             ((MainActivity) context).writeJsonFile();
         }
     }
@@ -167,10 +167,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private boolean checkAllSubTasksDone() {
         boolean allDone = true;
 
-        for (Task task : taskList)
-        {
-            if (!task.isDone())
-            {
+        for (Task task : taskList) {
+            if (!task.isDone()) {
                 allDone = false;
                 break;
             }
@@ -179,11 +177,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         return allDone;
 
 
-
     }
 
-    public void swapData(List<Task> newData)
-    {
+    public void swapData(List<Task> newData) {
         this.taskList.clear();
         this.taskList.addAll(newData);
         Collections.sort(this.taskList, TaskUtils.getComparator());
@@ -195,7 +191,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         return this.taskList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public Button mItemButton;
         public CheckBox mItemCheckbox;
@@ -204,9 +200,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            mItemButton = (Button)itemView.findViewById(R.id.item_progress);
-            mItemCheckbox = (CheckBox)itemView.findViewById(R.id.item_check_box);
-            mItemTextView = (TextView)itemView.findViewById(R.id.item_description);
+            mItemButton = (Button) itemView.findViewById(R.id.item_progress);
+            mItemCheckbox = (CheckBox) itemView.findViewById(R.id.item_check_box);
+            mItemTextView = (TextView) itemView.findViewById(R.id.item_description);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -219,7 +215,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 Task task = taskList.get(position);
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(MainActivity.PARENT_UUID, task.getTaskId());
-                ((Activity)context).startActivity(intent);
+                ((Activity) context).startActivity(intent);
             }
         }
 
@@ -242,12 +238,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                         @Override
                         public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
-                            switch (which)
-                            {
+                            switch (which) {
                                 case 0:
                                     ClipboardManager clipboard = (ClipboardManager)
                                             context.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("simple text",task.getDescription());
+                                    ClipData clip = ClipData.newPlainText("simple text", task.getDescription());
                                     clipboard.setPrimaryClip(clip);
                                     Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
                                     break;
@@ -263,7 +258,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     Intent intent = new Intent(context, EditItemActivity.class);
                                     intent.putExtra(MainActivity.TASK_DESCRIPTION, task.getDescription());
                                     intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
-                                    ((Activity)context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
+                                    ((Activity) context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
                                     break;
                                 case 4:
                                     List<Task> toDeleteItems = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
@@ -272,10 +267,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     break;
 
                                 default:
-                                        break;
+                                    break;
                             }
 
-                            Toast.makeText(context, "Showing "+which, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Showing " + which, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .show();
@@ -289,12 +284,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                         @Override
                         public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
-                            switch (which)
-                            {
+                            switch (which) {
                                 case 0:
                                     ClipboardManager clipboard = (ClipboardManager)
                                             context.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("simple text",task.getDescription());
+                                    ClipData clip = ClipData.newPlainText("simple text", task.getDescription());
                                     clipboard.setPrimaryClip(clip);
                                     Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
                                     break;
@@ -303,7 +297,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                             context.getSystemService(Context.CLIPBOARD_SERVICE);
                                     List<Task> tasks = new ArrayList<Task>();
                                     tasks.add(task);
-                                    ClipData formatClip = ClipData.newPlainText("simple text",getFormattedTask(tasks));
+                                    ClipData formatClip = ClipData.newPlainText("simple text", getFormattedTask(tasks));
                                     formatClipboard.setPrimaryClip(formatClip);
                                     Toast.makeText(context, "Copied text to clipboard", Toast.LENGTH_SHORT).show();
                                     break;
@@ -319,7 +313,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     Intent intent = new Intent(context, EditItemActivity.class);
                                     intent.putExtra(MainActivity.TASK_DESCRIPTION, task.getDescription());
                                     intent.putExtra(MainActivity.EDIT_TASK_UUID, task.getTaskId());
-                                    ((Activity)context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
+                                    ((Activity) context).startActivityForResult(intent, EDIT_ACTIVITY_CODE);
                                     break;
                                 case 5:
                                     List<Task> toDeleteItems = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
@@ -331,7 +325,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                     break;
                             }
 
-                            Toast.makeText(context, "Showing "+which, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Showing " + which, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .show();
@@ -343,12 +337,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             int position = getAdapterPosition(); // gets item position
             if (position != RecyclerView.NO_POSITION) {
                 Task task = taskList.get(position);
-                if (TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId()).size() == 0)
-                {
+                if (TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId()).size() == 0) {
                     showLongPressedDialog(task);
-                }
-                else
-                {
+                } else {
                     showLongPressedDialogForList(task);
                 }
 
@@ -359,11 +350,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     }
 
     private void deleteItems(final List<Task> toDeleteItems, Task task) {
-        if (toDeleteItems.size() == 1)
-        {
+        if (toDeleteItems.size() == 1) {
             new MaterialDialog.Builder(context)
                     .title(R.string.delete_dialog_title)
-                    .content("Are you sure you want to delete "+ task.getDescription()+" checked items?")
+                    .content("Are you sure you want to delete " + task.getDescription() + " checked items?")
                     .positiveText(R.string.agree)
                     .negativeText(R.string.disagree)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -373,12 +363,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                         }
                     })
                     .show();
-        }
-        else
-        {
+        } else {
             new MaterialDialog.Builder(context)
                     .title(R.string.delete_dialog_title)
-                    .content("Are you sure you want to delete "+ task.getDescription()+" checked items and " + (toDeleteItems.size() - 1)+" sub-items?")
+                    .content("Are you sure you want to delete " + task.getDescription() + " checked items and " + (toDeleteItems.size() - 1) + " sub-items?")
                     .positiveText(R.string.agree)
                     .negativeText(R.string.disagree)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -396,7 +384,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         List<UUID> taskUUIDs = new ArrayList<>();
         taskUUIDs.add(taskToMove.getTaskId());
-        FragmentManager fm = ((MainActivity)context).getSupportFragmentManager();
+        FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
         MoveFragment moveFragment = MoveFragment.newInstance(parentUUID, taskUUIDs);
         moveFragment.show(fm, "fragment_edit_name");
 
@@ -407,20 +395,18 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         List<Task> newTaskList = TaskUtils.generateTasks();
 
         Iterator<Task> iterator = newTaskList.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Task task = iterator.next();
-            if (toDeleteItems.contains(task))
-            {
+            if (toDeleteItems.contains(task)) {
                 iterator.remove();
             }
         }
 
         notifyDataSetChanged();
 
-        ((MainActivity)context).swapAdapterData(newTaskList, true);
+        ((MainActivity) context).swapAdapterData(newTaskList, true);
 
-        Toast.makeText(context , "Deleted "+ toDeleteItems.size() + " items " , Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Deleted " + toDeleteItems.size() + " items ", Toast.LENGTH_SHORT).show();
 
     }
 }

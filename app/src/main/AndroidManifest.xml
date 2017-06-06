@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.EditItemActivity"/>
+        <activity android:name=".activity.ProgressBarActivity"/>
         <activity android:name=".activity.AddMultipleActivity"/>
         <activity android:name=".activity.SettingsActivity"
             android:parentActivityName=".MainActivity" >
