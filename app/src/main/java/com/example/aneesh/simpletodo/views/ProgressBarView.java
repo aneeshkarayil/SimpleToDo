@@ -32,7 +32,7 @@ public class ProgressBarView extends View {
         super.onDraw(canvas);
 
         canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 100, mProgressWaitingPaint);
-        canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 360, true, mProgressCompletePaint);
+        canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 90, true, mProgressCompletePaint);
         canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 80, mInnerCirclePaint);
 
     }
