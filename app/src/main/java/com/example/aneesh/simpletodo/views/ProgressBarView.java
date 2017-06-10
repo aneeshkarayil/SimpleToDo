@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -35,6 +36,13 @@ public class ProgressBarView extends View {
         canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 90, true, mProgressCompletePaint);
         canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 80, mInnerCirclePaint);
 
+        Rect bounds = new Rect();
+        String text = "Hello";
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+
+        canvas.drawText(text, getMeasuredWidth()/2, getMeasuredHeight()/2 + bounds.height()/2, textPaint);
+
+
     }
 
     private void init()
@@ -44,6 +52,9 @@ public class ProgressBarView extends View {
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.DKGRAY);
+        textPaint.setTextSize(30f);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextAlign(Paint.Align.CENTER);
 
         mProgressCompletePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mProgressCompletePaint.setColor(Color.BLUE);
