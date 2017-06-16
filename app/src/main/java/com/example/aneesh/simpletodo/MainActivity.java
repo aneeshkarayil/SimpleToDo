@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity  implements SortFragment.Sor
     public static final int SETTING_ACTIVITY_REQUEST_CODE = 102;
     public static final int ADD_MULTIPLE_ACTIVITY_REQUEST_CODE = 103;
     public static final String EDIT_TASK_UUID = "com.aadhyaapps.anothertodo.MainActivity.EDIT_TASK_UUID";
+    public static final String TOTAL_TASKS = "com.aadhyaapps.anothertodo.MainActivity.TOTAL_TASKS";
+    public static final String COMPLETED_TASKS = "com.aadhyaapps.anothertodo.MainActivity.COMPLETED_TASKS";
     public static String PARENT_UUID = "com.aadhyaapps.anothertodo.MainActivity.PARENT_UUID";
     public static String TASK_DESCRIPTION = "com.aadhyaapps.anothertodo.MainActivity.TASK_DESCRIPTION";
     private List<Task> tasks;

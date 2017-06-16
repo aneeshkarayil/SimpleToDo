@@ -134,7 +134,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
 
             private void startProgressBarActivity() {
+                List<Task> childTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
+                int countOfCompletedTasks = 0;
+                for (Task childTask: childTasks)
+                {
+                    if (childTask.getParentTaskId().equals(task.getTaskId()) && childTask.isDone())
+                    {
+                        countOfCompletedTasks++;
+                    }
+                }
+
                 Intent intent = new Intent(context, ProgressBarActivity.class);
+                intent.putExtra(MainActivity.TOTAL_TASKS, childTasks.size());
+                intent.putExtra(MainActivity.COMPLETED_TASKS, countOfCompletedTasks);
                 ((Activity) context).startActivity(intent);
             }
         });

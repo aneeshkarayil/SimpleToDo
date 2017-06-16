@@ -21,10 +21,18 @@ public class ProgressBarView extends View {
     Paint mProgressCompletePaint;
     Paint mProgressWaitingPaint;
     Paint textPaint;
+    int mTotalCount;
+    int mCompletedCount;
 
     public ProgressBarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
+    }
+
+    public void setCounts(int totalCount, int completedCount)
+    {
+        this.mTotalCount = totalCount;
+        this.mCompletedCount = completedCount;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -33,11 +41,11 @@ public class ProgressBarView extends View {
         super.onDraw(canvas);
 
         canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 100, mProgressWaitingPaint);
-        canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 90, true, mProgressCompletePaint);
+        canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 360 * (mCompletedCount/mTotalCount), true, mProgressCompletePaint);
         canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 80, mInnerCirclePaint);
 
         Rect bounds = new Rect();
-        String text = "Hello";
+        String text = ""+mTotalCount;
         textPaint.getTextBounds(text, 0, text.length(), bounds);
 
         canvas.drawText(text, getMeasuredWidth()/2, getMeasuredHeight()/2 + bounds.height()/2, textPaint);
