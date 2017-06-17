@@ -39,15 +39,17 @@ public class ProgressBarView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int radius = Math.min(getMeasuredHeight() - getPaddingTop() -getPaddingBottom(), getMeasuredWidth() - getPaddingLeft() - getPaddingRight())/2;
+        int thickness = radius/5;
 
-        canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 100, mProgressWaitingPaint);
-        canvas.drawArc(getMeasuredWidth()/2 -100, getMeasuredHeight()/2 - 100, getMeasuredWidth()/2 + 100, getMeasuredHeight()/2 + 100, 270, 360 * (mCompletedCount/mTotalCount), true, mProgressCompletePaint);
-        canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 80, mInnerCirclePaint);
+        canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, radius , mProgressWaitingPaint);
+        canvas.drawArc(getMeasuredWidth()/2 -radius, getMeasuredHeight()/2 - radius, getMeasuredWidth()/2 + radius, getMeasuredHeight()/2 + radius, 270, (int)(360 * ((double)mCompletedCount/(double)mTotalCount)), true, mProgressCompletePaint);
+        canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, radius - thickness, mInnerCirclePaint);
 
         Rect bounds = new Rect();
         String text = ""+mTotalCount;
         textPaint.getTextBounds(text, 0, text.length(), bounds);
-
+        textPaint.setTextSize(radius/2);
         canvas.drawText(text, getMeasuredWidth()/2, getMeasuredHeight()/2 + bounds.height()/2, textPaint);
 
 
@@ -59,15 +61,15 @@ public class ProgressBarView extends View {
         mInnerCirclePaint.setColor(Color.WHITE);
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPaint.setColor(Color.DKGRAY);
-        textPaint.setTextSize(30f);
+        textPaint.setColor(Color.GRAY);
+
         textPaint.setAntiAlias(true);
         textPaint.setTextAlign(Paint.Align.CENTER);
 
         mProgressCompletePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mProgressCompletePaint.setColor(Color.BLUE);
+        mProgressCompletePaint.setColor(Color.GREEN);
 
         mProgressWaitingPaint =  new Paint(Paint.ANTI_ALIAS_FLAG);
-        mProgressWaitingPaint.setColor(Color.DKGRAY);
+        mProgressWaitingPaint.setColor(Color.LTGRAY);
     }
 }
