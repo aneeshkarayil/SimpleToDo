@@ -48,9 +48,9 @@ public class ProgressBarView extends View {
 
         Rect bounds = new Rect();
         String text = ""+mTotalCount;
-        textPaint.getTextBounds(text, 0, text.length(), bounds);
         textPaint.setTextSize((int)((double)radius/1.2));
-        canvas.drawText(text, getMeasuredWidth()/2, getMeasuredHeight()/2 + bounds.height(), textPaint);
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+        canvas.drawText(text, getMeasuredWidth()/2, getMeasuredHeight()/2 + bounds.height()/2, textPaint);
 
 
     }
