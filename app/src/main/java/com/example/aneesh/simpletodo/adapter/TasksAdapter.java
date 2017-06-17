@@ -24,10 +24,10 @@ import com.example.aneesh.simpletodo.MainActivity;
 import com.example.aneesh.simpletodo.R;
 import com.example.aneesh.simpletodo.Utils.TaskUtils;
 import com.example.aneesh.simpletodo.activity.EditItemActivity;
-import com.example.aneesh.simpletodo.activity.ProgressBarActivity;
 import com.example.aneesh.simpletodo.fragment.MoveFragment;
 import com.example.aneesh.simpletodo.model.SortSetting;
 import com.example.aneesh.simpletodo.model.Task;
+import com.example.aneesh.simpletodo.views.ProgressBarView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,8 +88,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         final Task task = taskList.get(position);
 
         final TextView textView = holder.mItemTextView;
-        Button progressButton = holder.mItemButton;
         CheckBox checkBox = holder.mItemCheckbox;
+        ProgressBarView progressBarView = holder.mProgressView;
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                 @Override
@@ -126,30 +126,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                                             }
         );
 
-        progressButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startProgressBarActivity();
-            }
-
-            private void startProgressBarActivity() {
-                List<Task> childTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
-                int countOfCompletedTasks = 0;
-                for (Task childTask: childTasks)
-                {
-                    if (childTask.getParentTaskId().equals(task.getTaskId()) && childTask.isDone())
-                    {
-                        countOfCompletedTasks++;
-                    }
-                }
-
-                Intent intent = new Intent(context, ProgressBarActivity.class);
-                intent.putExtra(MainActivity.TOTAL_TASKS, childTasks.size());
-                intent.putExtra(MainActivity.COMPLETED_TASKS, countOfCompletedTasks);
-                ((Activity) context).startActivity(intent);
-            }
-        });
 
         textView.setText(task.getDescription());
 
@@ -157,10 +133,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         List<Task> childTasks = TaskUtils.getChildTasks(TaskUtils.generateTasks(), task.getTaskId());
 
         if (childTasks.size() == 0) {
-            progressButton.setVisibility(View.INVISIBLE);
+            progressBarView.setVisibility(View.INVISIBLE);
         } else {
-            progressButton.setVisibility(View.VISIBLE);
-            progressButton.setText(childTasks.size() + "");
+
+            int countOfCompletedTasks = 0;
+            for (Task childTask: childTasks)
+            {
+                if (childTask.getParentTaskId().equals(task.getTaskId()) && childTask.isDone())
+                {
+                    countOfCompletedTasks++;
+                }
+            }
+
+            progressBarView.setCounts(childTasks.size(), countOfCompletedTasks);
         }
 
         if (task.isDone()) {
@@ -208,13 +193,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         public Button mItemButton;
         public CheckBox mItemCheckbox;
         public TextView mItemTextView;
+        public ProgressBarView mProgressView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            mItemButton = (Button) itemView.findViewById(R.id.item_progress);
             mItemCheckbox = (CheckBox) itemView.findViewById(R.id.item_check_box);
             mItemTextView = (TextView) itemView.findViewById(R.id.item_description);
+            mProgressView = (ProgressBarView) itemView.findViewById(R.id.task_progress_view);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
