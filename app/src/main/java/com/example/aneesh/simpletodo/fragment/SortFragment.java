@@ -1,11 +1,16 @@
 package com.example.aneesh.simpletodo.fragment;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -81,6 +86,26 @@ public class SortFragment extends DialogFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        setWindowSize();
+    }
+
+    private void setWindowSize() {
+        Window window = getDialog().getWindow();
+        Point size = new Point();
+
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+
+        int width = size.x;
+
+        window.setLayout((int) (width * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -97,6 +122,7 @@ public class SortFragment extends DialogFragment {
         this.cancelButton = (Button) v.findViewById(R.id.sort_cancel);
 
         setUpTheSelections();
+        //setWindowSize();
 
         this.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
